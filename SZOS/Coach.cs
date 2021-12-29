@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 
 namespace SZOS
 {
-    abstract class Coach : Person
+    /// <summary>
+    /// Klasa Coach przechowuje informacje o członkach klubu, dziedziczy podstawowe informacje po klasie Person.
+    /// </summary>
+    class Coach : Person
     {
         private string sportsDiscipline, licenseNumber;
         private short workingTime;
+        private protected decimal hourlyRate;
 
         public string SportsDiscipline 
         { 
             get => sportsDiscipline;
             set
             {
-                if (sportsDiscipline != null)
+                if (value != null)
                 {
                     sportsDiscipline = value;
                 }
@@ -29,9 +33,9 @@ namespace SZOS
 
             set
             {
-                if (licenseNumber != null)
+                if (value != null)
                 {
-                    licenseNumber = null;
+                    licenseNumber = value;
                 }
             }
         }
@@ -42,25 +46,45 @@ namespace SZOS
 
             set
             {
-                if (workingTime > 0)
+                if (value > 0)
                 {
                     workingTime = value;
                 }
             }
         }
 
-        public Coach()
-        { }
-
-        public Coach(string name, string surname, string address, string sex, long pesel, string sportsDiscipline, string licenseNumber) : base(name, surname, address, sex, pesel)
+        public decimal HourlyRate
         {
-            Name = name;
-            Surname = surname;
-            Address = address;
-            Sex = sex;
-            Pesel = pesel;
-            SportsDiscipline = sportsDiscipline;
-            LicenseNumber = licenseNumber;
+            get => hourlyRate;
+
+            set
+            {
+                if (value > 0)
+                {
+                    hourlyRate = value;
+                }
+            }
+        }
+
+        public Coach()
+        {}
+
+        // public Coach(string name, string surname, string address, string sex, long pesel, string sportsDiscipline, string licenseNumber, decimal hourlyRate) : base(name, surname, address, sex, pesel)
+        // {
+        //     Name = name;
+        //     Surname = surname;
+        //     Address = address;
+        //     Sex = sex;
+        //     Pesel = pesel;
+        //     SportsDiscipline = sportsDiscipline;
+        //     LicenseNumber = licenseNumber;
+        //     HourlyRate = hourlyRate;
+        //     TypeOfPerson();
+        // }
+
+        public override string TypeOfPerson()
+        {
+            return $"Trener/Instruktor dyscypliny {SportsDiscipline}";
         }
     }
 }

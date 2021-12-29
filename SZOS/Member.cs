@@ -12,30 +12,40 @@ namespace SZOS
     /// </summary>
     class Member : Person
     {
-        private short membershipNumber;
+        private static readonly Random getrandom = new Random();
+        private int membershipNumber;
         private string idNumber;
         private bool rodo;
 
-        public Member(): base()
+        public Member()
         {
-            TypeOfPerson();
-        }
-        public Member(string name, string surname, string addres, string sex, long pesel) : base(name, surname, addres, sex, pesel)
-        {
-            Name = name;
-            Surname = surname;
-            Address = addres;
-            Sex = sex;
-            Pesel = pesel;
             MemberShipNumber = membershipNumber;
-            TypeOfPerson();
         }
+        // public Member(string name, string surname, string address, string sex, long pesel) : base(name, surname, address, sex, pesel)
+        // {
+        //     Name = name;
+        //     Surname = surname;
+        //     Address = address;
+        //     Sex = sex;
+        //     Pesel = pesel;
+        //     MemberShipNumber = membershipNumber;
+        //     TypeOfPerson();
+        // }
 
-        public short MemberShipNumber
+        public int MemberShipNumber
         {
             get => membershipNumber; 
-            set => membershipNumber = value;
+            set => membershipNumber = GenerateMembershipNumber();
         }
+
+        public int GenerateMembershipNumber()
+        {
+            lock (getrandom) // synchronize
+            {
+                return getrandom.Next(10000, 32000);
+            }
+        }
+    
 
         public override string TypeOfPerson()
         {
