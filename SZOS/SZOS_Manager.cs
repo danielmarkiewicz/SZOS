@@ -28,19 +28,8 @@ namespace SZOS
             _coaches = new Coach[sizeNumberOfCoach];
         }
 
-        public void LogInManager()
-        {
-            string login, password;
-            Console.WriteLine("-----------------------------");
-            Console.WriteLine("|                            |");
-            Console.WriteLine($"|   Login:{login = Console.ReadLine()}            |");
-            Console.WriteLine($"|   Password:{password = Console.ReadLine()}      |");
-            Console.WriteLine("|                            |");
-            Console.WriteLine("-----------------------------");
-        }
         private void PrintMainMenu()
         {
-            LogInManager();
             Console.Clear();
             Console.WriteLine("Wybierz akcję: ");
             Console.WriteLine("1 - Dodanie członka klubu");
