@@ -14,12 +14,14 @@ namespace SZOS
     {
         private static readonly Random getrandom = new Random();
         private int membershipNumber;
+        private string membershipCard;
         private string idNumber;
         private bool rodo;
 
         public Member()
         {
             MemberShipNumber = membershipNumber;
+            MemberShipCard = membershipCard;
         }
         // public Member(string name, string surname, string address, string sex, long pesel) : base(name, surname, address, sex, pesel)
         // {
@@ -38,15 +40,19 @@ namespace SZOS
             set => membershipNumber = GenerateMembershipNumber();
         }
 
+        public string MemberShipCard
+        {
+            get => membershipCard;
+            set => membershipCard = value;
+        }
         public int GenerateMembershipNumber()
         {
-            lock (getrandom) // synchronize
+            lock (getrandom)
             {
                 return getrandom.Next(10000, 32000);
             }
         }
-    
-
+        
         public override string TypeOfPerson()
         {
             return "Członek klubu";

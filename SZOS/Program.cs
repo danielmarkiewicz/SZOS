@@ -10,20 +10,9 @@ namespace SZOS
     {
         static void Main(string[] args)
         {
-            SZOS_Manager szosManager = new SZOS_Manager(3, 2);
+            SZOS_Manager szosManager = new SZOS_Manager(100, 25);
             
-            szosManager.AddNewMember();
-
-            szosManager.AddNewMember();
-            szosManager.ShowMembers();
-
-            szosManager.AddNewCoach();
-
-            szosManager.ShowCoaches();
-
-            Console.WriteLine();
-
-            Console.ReadKey();
+            szosManager.Run();
         }
     }
 }

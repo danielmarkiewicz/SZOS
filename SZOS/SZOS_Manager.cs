@@ -13,7 +13,8 @@ namespace SZOS
     {
         private Member[] _members;
         private Coach[] _coaches;
-        private int _numberOfMembers = 1;
+        protected ClubCard _clubCard;
+        public int _numberOfMembers = 1;
         private int _numberOfCoaches = 1;
 
         /// <summary>
@@ -25,6 +26,71 @@ namespace SZOS
         {
             _members = new Member[sizeNumberOfMembers];
             _coaches = new Coach[sizeNumberOfCoach];
+        }
+
+        public void LogInManager()
+        {
+            string login, password;
+            Console.WriteLine("-----------------------------");
+            Console.WriteLine("|                            |");
+            Console.WriteLine($"|   Login:{login = Console.ReadLine()}            |");
+            Console.WriteLine($"|   Password:{password = Console.ReadLine()}      |");
+            Console.WriteLine("|                            |");
+            Console.WriteLine("-----------------------------");
+        }
+        private void PrintMainMenu()
+        {
+            LogInManager();
+            Console.Clear();
+            Console.WriteLine("Wybierz akcję: ");
+            Console.WriteLine("1 - Dodanie członka klubu");
+            Console.WriteLine("2 - Dodanie trenera/instruktora");
+            Console.WriteLine("3 - Zakupienie karnetu");
+            Console.WriteLine("4 - Zapisanie na zajęcia");
+            Console.WriteLine("5 - Grafik zajęć");
+            Console.WriteLine("6 - Rozliczenia");
+            Console.WriteLine("7 - Lista wszystkich członków klubu");
+            Console.WriteLine("8 - Lista wszystkich trenerów/instruktorów");
+            Console.WriteLine("0 - Zakończ");
+        }
+
+        public void Run()
+        {
+            int action;
+            do
+            {
+                PrintMainMenu();
+                action = SelectedAction();
+
+                switch (action)
+                {
+                    case 1:
+                        AddNewMember();
+                        break;
+                    case 2:
+                        AddNewCoach();
+                        break;
+                    case 3:
+                        AddTypeOfCardToMember();
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        ShowMembers();
+                        break;
+                    case 8:
+                        ShowCoaches();
+                        break;
+                    default:
+                        Console.Write("Nieznane polecenie");
+                        break;
+                }
+            }
+            while (action != 0);
         }
 
         /// <summary>
@@ -49,7 +115,8 @@ namespace SZOS
             }
             else
             {
-                
+                Console.WriteLine("---------Brak miejsc w klubie-------");
+                Console.ReadKey();
             }
         }
         
@@ -91,10 +158,11 @@ namespace SZOS
         /// </summary>
         public void ShowMembers()
         {
-            for (int i = 1; i < _members.Length; i++)
+            for (int i = 1; i < _numberOfMembers; i++)
             {
-                Console.WriteLine($"{i} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()}");
+                Console.WriteLine($"{i} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}");
             }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -102,10 +170,35 @@ namespace SZOS
         /// </summary>
         public void ShowCoaches()
         {
-            for (int i = 1; i < _coaches.Length; i++)
+            for (int i = 1; i < _numberOfCoaches; i++)
             {
                 Console.WriteLine($"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}");
             }
+        }
+
+        public void AddTypeOfCardToMember()
+        {
+            int inPutCardNumber;
+            inPutCardNumber = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 1; i < _numberOfMembers; i++)
+            {
+                if (inPutCardNumber == _members[i].MemberShipNumber)
+                {
+                    _members[i].MemberShipCard = "Silver";
+                }
+            }
+        }
+
+        private int SelectedAction()
+        {
+            Console.Write("Akcja: ");
+            string action = Console.ReadLine();
+            if (string.IsNullOrEmpty(action))
+            {
+                return -1;
+            }
+            return int.Parse(action);
         }
     }
 }
