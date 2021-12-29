@@ -7,17 +7,26 @@ using System.Threading.Tasks;
 namespace SZOS
 { 
     /// <summary>
-    /// Klasa, w której będzie umieszczony cały kod startowy i UI. W klasi program tylko bedzie odpalona metoda run tej klasy
+    /// W tej klasie znajdują się wszystkie metody, którymi będzie zarządany program, ich implementacja będzie odbywać się tutaj. Jedyna metoda jaka będzie ruszana w klasie Program to run.
     /// </summary>
     class SZOS_Manager
     {
         private Member[] _members;
-        private int _numberOfMembers;
+        private int _numberOfMembers = 1;
 
+        /// <summary>
+        /// Konstruktor klasy SZOS_Manager, przyjmuje on póki co dwa parametry, maksymalną liczbę członków klubu, oraz maksymalną liczbę trenerów. 
+        /// </summary>
+        /// <param name="sizeNumberOfMembers">Maksymalna liczba członków klubu</param>
+        /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie</param>
         public SZOS_Manager(int sizeNumberOfMembers, int sizeNumberOfCoach )
         {
             _members = new Member[sizeNumberOfMembers];
         }
+
+        /// <summary>
+        /// AddNewMember to metoda do dodawania nowych członków do klubu. Wykorzystuje ona klasę Member, w której jest generowany indywidualny numer członkowski.
+        /// </summary>
         public void AddNewMember()
         {
             if (_numberOfMembers < _members.Length)
@@ -28,9 +37,12 @@ namespace SZOS
                 Console.Write("Nazwisko: ");
                 newMember.Surname = Console.ReadLine();
                 Console.Write("Adres: ");
-                newMember.Addres = Console.ReadLine();
+                newMember.Address = Console.ReadLine();
+                Console.Write("PESEL: ");
+                newMember.Pesel = Convert.ToInt64(Console.ReadLine());
                 Console.Write("Płeć: ");
                 newMember.Sex = Console.ReadLine();
+
                 _members[_numberOfMembers++] = newMember;
             }
             else
@@ -41,9 +53,9 @@ namespace SZOS
 
         public void ShowMembers()
         {
-            foreach (var member in _members)
+            for (int i = 1; i < _members.Length; i++)
             {
-                Console.WriteLine(_members);
+                Console.WriteLine($"{i} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex}");
             }
         }
     }

@@ -7,13 +7,25 @@ using System.Threading.Tasks;
 
 namespace SZOS
 {
+    /// <summary>
+    /// Przechowuje informacje podstawowe o Osobie. Pozostałe klasy będą dziedziczyć po niej takie rzeczy jak Imie, Nazwisko, Adres, Płeć, PESEL.
+    /// </summary>
     abstract class Person
     {
-        protected string name;
-        protected string surname;
-        protected string addres;
-        protected string sex;
+        private string name, surname, address, sex;
+        private long pesel;
 
+        public long Pesel
+        {
+            get => pesel;
+            set
+            {
+                if (pesel != null)
+                {
+                    pesel = value;
+                }
+            }
+        }
         public string Sex
         {
             get => sex;
@@ -29,14 +41,14 @@ namespace SZOS
                 }
             }
         }
-        public string Addres
+        public string Address
         {
-            get => addres;
+            get => address;
             set
             {
                 if (value != null)
                 {
-                    addres = value;
+                    address = value;
                 }
             }
         }
@@ -64,15 +76,15 @@ namespace SZOS
         }
 
         public Person()
-        {
+        {}
 
-        }
-        public Person(string name, string surname, string addres, string sex)
+        public Person(string name, string surname, string addres, string sex, long pesel)
         {
-            name = this.name;
-            surname = this.surname;
-            addres = this.addres;
-            sex = this.sex;
+            this.name = name;
+            this.surname = surname;
+            this.address = addres;
+            this.sex = sex;
+            this.pesel = pesel;
         }
 
         public abstract string TypeOfPerson();

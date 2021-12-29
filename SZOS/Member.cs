@@ -7,20 +7,26 @@ using System.Threading.Tasks;
 
 namespace SZOS
 {
+    /// <summary>
+    /// Klasa Member przechowuje informacje o członkach klubu, dziedziczy podstawowe informacje po klasie Person.
+    /// </summary>
     class Member : Person
     {
         private short membershipNumber;
+        private string idNumber;
+        private bool rodo;
 
-        public Member():base()
+        public Member(): base()
         {
             TypeOfPerson();
         }
-        public Member(string name, string surname, string addres, string sex) : base(name, surname, addres, sex)
+        public Member(string name, string surname, string addres, string sex, long pesel) : base(name, surname, addres, sex, pesel)
         {
             Name = name;
             Surname = surname;
-            Addres = addres;
+            Address = addres;
             Sex = sex;
+            Pesel = pesel;
             MemberShipNumber = membershipNumber;
             TypeOfPerson();
         }
@@ -33,7 +39,7 @@ namespace SZOS
 
         public override string TypeOfPerson()
         {
-            return "Użytkownik";
+            return "Członek klubu";
         }
     }
 }

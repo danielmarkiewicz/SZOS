@@ -10,7 +10,7 @@ namespace SZOS
     {
         static void Main(string[] args)
         {
-            SZOS_Manager szosManager = new SZOS_Manager(1, 0);
+            SZOS_Manager szosManager = new SZOS_Manager(2, 0);
 
             szosManager.AddNewMember();
 
