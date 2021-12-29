@@ -19,8 +19,8 @@ namespace SZOS
         /// <summary>
         /// Konstruktor klasy SZOS_Manager, przyjmuje on póki co dwa parametry, maksymalną liczbę członków klubu, oraz maksymalną liczbę trenerów. 
         /// </summary>
-        /// <param name="sizeNumberOfMembers">Maksymalna liczba członków klubu</param>
-        /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie</param>
+        /// <param name="sizeNumberOfMembers">Maksymalna liczba członków klubu. Numeracja członków zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
+        /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie. Numeracja treneró zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
         public SZOS_Manager(int sizeNumberOfMembers, int sizeNumberOfCoach )
         {
             _members = new Member[sizeNumberOfMembers];

@@ -10,11 +10,11 @@ namespace SZOS
     {
         static void Main(string[] args)
         {
-            SZOS_Manager szosManager = new SZOS_Manager(2, 2);
+            SZOS_Manager szosManager = new SZOS_Manager(3, 2);
             
             szosManager.AddNewMember();
-            
-            szosManager.ShowMembers();
+
+            szosManager.AddNewMember();
             szosManager.ShowMembers();
 
             szosManager.AddNewCoach();
