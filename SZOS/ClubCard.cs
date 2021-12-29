@@ -18,7 +18,10 @@ namespace SZOS
             get => typeOfCard;
             set
             {
-                typeOfCard = value;
+                if (value == "S")
+                {
+                    value = "Silver";
+                }
             }
         }
 

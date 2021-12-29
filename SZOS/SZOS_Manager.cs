@@ -13,7 +13,7 @@ namespace SZOS
     {
         private Member[] _members;
         private Coach[] _coaches;
-        protected ClubCard _clubCard;
+        private ClubCard _clubCard;
         public int _numberOfMembers = 1;
         private int _numberOfCoaches = 1;
 
@@ -168,13 +168,18 @@ namespace SZOS
         public void AddTypeOfCardToMember()
         {
             int inPutCardNumber;
-            inPutCardNumber = Convert.ToInt32(Console.ReadLine());
+            string cardType;
 
+            inPutCardNumber = Convert.ToInt32(Console.ReadLine());
+            cardType = Console.ReadLine();
             for (int i = 1; i < _numberOfMembers; i++)
             {
                 if (inPutCardNumber == _members[i].MemberShipNumber)
                 {
-                    _members[i].MemberShipCard = "Silver";
+                    if (cardType == "S")
+                    {
+                        _members[i].MemberShipCard = _clubCard.TypeOfCard;
+                    }
                 }
             }
         }
