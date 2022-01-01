@@ -81,7 +81,7 @@ namespace SZOS
         //     HourlyRate = hourlyRate;
         //     TypeOfPerson();
         // }
-
+       
         public override string TypeOfPerson()
         {
             return $"Trener/Instruktor dyscypliny {SportsDiscipline}";

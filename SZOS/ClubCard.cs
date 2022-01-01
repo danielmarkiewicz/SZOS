@@ -16,14 +16,26 @@ namespace SZOS
         public string TypeOfCard
         {
             get => typeOfCard;
+
             set
             {
-                if (value == "S")
+                if (value == "Silver")
                 {
-                    value = "Silver";
+                    typeOfCard = "Silver";
+                }
+                else if (value == "Gold")
+                {
+                    typeOfCard = "Gold";
+                }
+                else if (value == "Weekend")
+                {
+                    typeOfCard = "Weekend";
+                }
+                else if (value == "Personal")
+                {
+                    typeOfCard = "Personal";
                 }
             }
         }
-
     }
 }

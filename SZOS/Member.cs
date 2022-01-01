@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -15,7 +16,6 @@ namespace SZOS
         private static readonly Random getrandom = new Random();
         private int membershipNumber;
         private string membershipCard;
-        private string idNumber;
         private bool rodo;
 
         public Member()
@@ -23,16 +23,6 @@ namespace SZOS
             MemberShipNumber = membershipNumber;
             MemberShipCard = membershipCard;
         }
-        // public Member(string name, string surname, string address, string sex, long pesel) : base(name, surname, address, sex, pesel)
-        // {
-        //     Name = name;
-        //     Surname = surname;
-        //     Address = address;
-        //     Sex = sex;
-        //     Pesel = pesel;
-        //     MemberShipNumber = membershipNumber;
-        //     TypeOfPerson();
-        // }
 
         public int MemberShipNumber
         {
@@ -43,8 +33,29 @@ namespace SZOS
         public string MemberShipCard
         {
             get => membershipCard;
-            set => membershipCard = value;
+            set
+            {
+                if (value == null)
+                {
+                    membershipCard = "Brak aktywnego karnetu";
+                }
+                else
+                {
+                    membershipCard = value;
+                }
+            }
         }
+
+        public bool Rodo
+        {
+            get => rodo;
+            set => rodo = value;
+        }
+
+        /// <summary>
+        /// GenerateMembershipNumber generuje indywidualny numer członkowski w zakresie od 10000 do 32000
+        /// </summary>
+        /// <returns></returns>
         public int GenerateMembershipNumber()
         {
             lock (getrandom)
@@ -52,7 +63,7 @@ namespace SZOS
                 return getrandom.Next(10000, 32000);
             }
         }
-        
+
         public override string TypeOfPerson()
         {
             return "Członek klubu";

@@ -88,6 +88,6 @@ namespace SZOS
         }
 
         public abstract string TypeOfPerson();
-        
+
     }
 }
