@@ -36,12 +36,13 @@ namespace SZOS
             Console.WriteLine("Wybierz akcję: ");
             Console.WriteLine("1 - Dodanie członka klubu");
             Console.WriteLine("2 - Dodanie trenera/instruktora");
-            Console.WriteLine("3 - Zakupienie karnetu");
-            Console.WriteLine("4 - Zapisanie na zajęcia");
-            Console.WriteLine("5 - Grafik zajęć");
-            Console.WriteLine("6 - Rozliczenia");
-            Console.WriteLine("7 - Wyszukiwarka członków klubu");
-            Console.WriteLine("8 - Wyszukiwarka trenerów/instruktorów");
+            Console.WriteLine("3 - Dodanie trenera do grup");
+            Console.WriteLine("4 - Zakupienie karnetu");
+            Console.WriteLine("5 - Utworzenie grupy zajęciowej");
+            Console.WriteLine("6 - Grafik zajęć + Zapisy");
+            Console.WriteLine("7 - Rozliczenia");
+            Console.WriteLine("8 - Wyszukiwarka członków klubu");
+            Console.WriteLine("9 - Wyszukiwarka trenerów/instruktorów");
             Console.WriteLine("0 - Zakończ");
         }
 
@@ -65,20 +66,23 @@ namespace SZOS
                         AddNewCoach();
                         break;
                     case 3:
-                        AddTypeOfCardToMember();
+                        AddCoachToSportsGroup();
                         break;
                     case 4:
+                        AddTypeOfCardToMember();
                         break;
                     case 5:
+                        CreateSportsGroup();
                         break;
                     case 6:
                         break;
                     case 7:
-                        SearchMemberOrMembers();
-                        Console.ReadKey();
                         break;
                     case 8:
-                        ShowCoaches();
+                        SearchMemberOrMembers();
+                        break;
+                    case 9:
+                        SearchCoaches();
                         break;
                     default:
                         Console.Write("Nieznane polecenie");
@@ -180,31 +184,55 @@ namespace SZOS
             {
                 if (name == _members[i].Name && surname == _members[i].Surname)
                 {
-                    ShowPerson(i);
+                    ShowMembers(i);
                 }
                 else if (name == _members[i].Name && surname == "")
                 {
-                    ShowPerson(i);
+                    ShowMembers(i);
                 }
                 else if (name == "" && surname == _members[i].Surname)
                 {
-                    ShowPerson(i);
+                    ShowMembers(i);
                 }
                 else if (name == "" && surname == "")
                 {
-                    ShowPerson(i);
+                    ShowMembers(i);
                 }
             }
+
+            Console.ReadKey();
         }
 
         /// <summary>
         /// ShowCoaches wyświetla wszystkich trenerów/instruktorów w klubie
         /// </summary>
-        public void ShowCoaches()
+        public void SearchCoaches()
         {
+            string name, surname;
+
+            Console.Write("Wpisz imie trenera/instruktora: ");
+            name = Console.ReadLine();
+            Console.Write("Wpisz trenera/instruktora osoby: ");
+            surname = Console.ReadLine();
+
             for (int i = 1; i < _numberOfCoaches; i++)
             {
-                Console.WriteLine($"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}");
+                if (name == _coaches[i].Name && surname == _coaches[i].Surname)
+                {
+                    ShowCoaches(i);
+                }
+                else if (name == _coaches[i].Name && surname == "")
+                {
+                    ShowCoaches(i);
+                }
+                else if (name == "" && surname == _coaches[i].Surname)
+                {
+                    ShowCoaches(i);
+                }
+                else if (name == "" && surname == "")
+                {
+                    ShowCoaches(i);
+                }
             }
         }
 
@@ -272,6 +300,27 @@ namespace SZOS
             }
         }
 
+        /// <summary>
+        /// AddCoachToClass służy do dodawania trenera/instruktora do określonej grupy zajęciowej, na podstawie jego dyscypliny sportowej.
+        /// </summary>
+        public void AddCoachToSportsGroup()
+        {
+            SearchCoaches();
+
+            Console.WriteLine();
+            Console.Write("Wpisz dyscyplinę sportową grupy: ");
+        }
+
+        /// <summary>
+        /// CreateClass tworzy grupy zajęciowe na podstawie dyscypliny sportowej
+        /// </summary>
+        public void CreateSportsGroup()
+        {
+            string sportsDiscipline;
+            Console.Write("Wpisz dyscyplinę sportową grupy: ");
+            sportsDiscipline = Console.ReadLine();
+        }
+
         private int SelectedAction()
         {
             Console.Write("Akcja: ");
@@ -283,7 +332,22 @@ namespace SZOS
             return int.Parse(action);
         }
 
-        public string ShowPerson(int i)
+        /// <summary>
+        /// ShowCoaches zwaraca dane trenerów/instruktorów
+        /// </summary>
+        /// <param name="i">Służy do określeni id zwracanego trenera. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
+        /// <returns></returns>
+        public string ShowCoaches(int i)
+        {
+            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
+        }
+
+        /// <summary>
+        /// ShowCoaches zwaraca dane członków
+        /// </summary>
+        /// <param name="i">Służy do określeni id zwracanego członka. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
+        /// <returns></returns>
+        public string ShowMembers(int i)
         {
             return $"{i} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
         }

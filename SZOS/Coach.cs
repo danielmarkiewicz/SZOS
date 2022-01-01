@@ -69,19 +69,6 @@ namespace SZOS
         public Coach()
         {}
 
-        // public Coach(string name, string surname, string address, string sex, long pesel, string sportsDiscipline, string licenseNumber, decimal hourlyRate) : base(name, surname, address, sex, pesel)
-        // {
-        //     Name = name;
-        //     Surname = surname;
-        //     Address = address;
-        //     Sex = sex;
-        //     Pesel = pesel;
-        //     SportsDiscipline = sportsDiscipline;
-        //     LicenseNumber = licenseNumber;
-        //     HourlyRate = hourlyRate;
-        //     TypeOfPerson();
-        // }
-       
         public override string TypeOfPerson()
         {
             return $"Trener/Instruktor dyscypliny {SportsDiscipline}";
