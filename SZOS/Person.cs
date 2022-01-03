@@ -26,6 +26,7 @@ namespace SZOS
                 }
             }
         }
+
         public string Sex
         {
             get => sex;
@@ -41,6 +42,7 @@ namespace SZOS
                 }
             }
         }
+
         public string Address
         {
             get => address;
@@ -52,6 +54,7 @@ namespace SZOS
                 }
             }
         }
+
         public string Name
         {
             get => name;
@@ -63,6 +66,7 @@ namespace SZOS
                 }
             }
         }
+
         public string Surname
         {
             get => surname;

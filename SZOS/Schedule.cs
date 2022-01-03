@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SZOS
 {
-    class Schedule
+    class Schedule : Coach
     {
+        private Member _member;
     }
 }

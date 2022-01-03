@@ -9,7 +9,34 @@ namespace SZOS
     class SportsGroups : Coach
     {
         private int numberOfMembersInGroup;
-        private DateTime durationOfGroupActivit;
+        private short groupNumber;
 
+        public SportsGroups()
+        { 
+        }
+
+        public int NumberOfMembersInGroup
+        {
+            get => numberOfMembersInGroup;
+            set
+            {
+                if (value != 0)
+                {
+                    numberOfMembersInGroup = value;
+                }
+            }
+        }
+
+        public short GroupNumber
+        {
+            get => groupNumber;
+            set
+            {
+                if (value > 0)
+                {
+                    groupNumber = value;
+                }
+            }
+        }
     }
 }

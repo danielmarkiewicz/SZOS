@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,18 +14,21 @@ namespace SZOS
     {
         private Member[] _members;
         private Coach[] _coaches;
-        public int _numberOfMembers = 1;
+        private SportsGroups[] _sportsGroups;
+        private int _numberOfMembers = 1;
         private int _numberOfCoaches = 1;
+        private int _numberOfGroups = 1;
 
         /// <summary>
         /// Konstruktor klasy SZOS_Manager, przyjmuje on póki co dwa parametry, maksymalną liczbę członków klubu, oraz maksymalną liczbę trenerów. 
         /// </summary>
         /// <param name="sizeNumberOfMembers">Maksymalna liczba członków klubu. Numeracja członków zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
         /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie. Numeracja treneró zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
-        public SZOS_Manager(int sizeNumberOfMembers, int sizeNumberOfCoach)
+        public SZOS_Manager(int sizeNumberOfMembers, int sizeNumberOfCoach, int sizeNumberOfGroups)
         {
             _members = new Member[sizeNumberOfMembers];
             _coaches = new Coach[sizeNumberOfCoach];
+            _sportsGroups = new SportsGroups[sizeNumberOfGroups];
         }
 
         /// <summary>
@@ -36,13 +40,12 @@ namespace SZOS
             Console.WriteLine("Wybierz akcję: ");
             Console.WriteLine("1 - Dodanie członka klubu");
             Console.WriteLine("2 - Dodanie trenera/instruktora");
-            Console.WriteLine("3 - Dodanie trenera do grup");
-            Console.WriteLine("4 - Zakupienie karnetu");
-            Console.WriteLine("5 - Utworzenie grupy zajęciowej");
-            Console.WriteLine("6 - Grafik zajęć + Zapisy");
-            Console.WriteLine("7 - Rozliczenia");
-            Console.WriteLine("8 - Wyszukiwarka członków klubu");
-            Console.WriteLine("9 - Wyszukiwarka trenerów/instruktorów");
+            Console.WriteLine("3 - Zakupienie karnetu");
+            Console.WriteLine("4 - Utworzenie grupy zajęciowej");
+            Console.WriteLine("5 - Grafik zajęć + Zapisy");
+            Console.WriteLine("6 - Rozliczenia");
+            Console.WriteLine("7 - Wyszukiwarka członków klubu");
+            Console.WriteLine("8 - Wyszukiwarka trenerów/instruktorów");
             Console.WriteLine("0 - Zakończ");
         }
 
@@ -60,33 +63,50 @@ namespace SZOS
                 switch (action)
                 {
                     case 1:
+                    {
                         AddNewMember();
                         break;
+                    }
                     case 2:
+                    {
                         AddNewCoach();
                         break;
+                    }
                     case 3:
-                        AddCoachToSportsGroup();
-                        break;
-                    case 4:
+                    {
                         AddTypeOfCardToMember();
                         break;
-                    case 5:
+                    }
+                    case 4:
+                    {
                         CreateSportsGroup();
                         break;
+                    }
+                    case 5:
+                    {
+                        break;
+                    }
+
                     case 6:
+                    {
                         break;
+                    }
                     case 7:
-                        break;
-                    case 8:
+                    {
                         SearchMemberOrMembers();
                         break;
-                    case 9:
+                    }
+                    case 8:
+                    {
                         SearchCoaches();
                         break;
+                    }
+
                     default:
+                    {
                         Console.Write("Nieznane polecenie");
                         break;
+                    }
                 }
             }
             while (action != 0);
@@ -184,19 +204,19 @@ namespace SZOS
             {
                 if (name == _members[i].Name && surname == _members[i].Surname)
                 {
-                    ShowMembers(i);
+                    Console.WriteLine(ShowMembers(i));
                 }
                 else if (name == _members[i].Name && surname == "")
                 {
-                    ShowMembers(i);
+                    Console.WriteLine(ShowMembers(i));
                 }
                 else if (name == "" && surname == _members[i].Surname)
                 {
-                    ShowMembers(i);
+                    Console.WriteLine(ShowMembers(i));
                 }
                 else if (name == "" && surname == "")
                 {
-                    ShowMembers(i);
+                    Console.WriteLine(ShowMembers(i)); 
                 }
             }
 
@@ -219,21 +239,23 @@ namespace SZOS
             {
                 if (name == _coaches[i].Name && surname == _coaches[i].Surname)
                 {
-                    ShowCoaches(i);
+                    Console.WriteLine(ShowCoachesDiscipline(i));
                 }
                 else if (name == _coaches[i].Name && surname == "")
                 {
-                    ShowCoaches(i);
+                    Console.WriteLine(ShowCoachesDiscipline(i));
                 }
                 else if (name == "" && surname == _coaches[i].Surname)
                 {
-                    ShowCoaches(i);
+                    Console.WriteLine(ShowCoachesDiscipline(i));
                 }
                 else if (name == "" && surname == "")
                 {
-                    ShowCoaches(i);
+                    Console.WriteLine(ShowCoachesDiscipline(i));
                 }
             }
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -300,25 +322,49 @@ namespace SZOS
             }
         }
 
-        /// <summary>
-        /// AddCoachToClass służy do dodawania trenera/instruktora do określonej grupy zajęciowej, na podstawie jego dyscypliny sportowej.
-        /// </summary>
-        public void AddCoachToSportsGroup()
-        {
-            SearchCoaches();
-
-            Console.WriteLine();
-            Console.Write("Wpisz dyscyplinę sportową grupy: ");
-        }
 
         /// <summary>
         /// CreateClass tworzy grupy zajęciowe na podstawie dyscypliny sportowej
         /// </summary>
         public void CreateSportsGroup()
         {
+            SportsGroups sportsGroups = new SportsGroups();
             string sportsDiscipline;
+            string licenceNumber;
             Console.Write("Wpisz dyscyplinę sportową grupy: ");
             sportsDiscipline = Console.ReadLine();
+
+            Console.Write("Wpisz numer grupy: ");
+            short groupNumber = Convert.ToInt16(Console.ReadLine());
+
+            Console.Write("Wpisz maksymalna liczbe osób w gupie :");
+            int numberOfMembersInGroup = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
+            for (int i = 1; i < _numberOfCoaches; i++)
+            {
+                if (sportsDiscipline == _coaches[i].SportsDiscipline)
+                {
+                    Console.WriteLine(ShowCoaches(i));
+                }
+            }
+
+            _sportsGroups[_numberOfGroups++] = sportsGroups;
+
+            Console.Write("Wpisz numer licencji wybranego trenera: ");
+            licenceNumber = Console.ReadLine();
+            for (int i = 1; i < _numberOfCoaches; i++)
+            {
+                if (licenceNumber == _coaches[i].LicenseNumber)
+                {
+                    //sportsGroups.GroupNumber = groupNumber;
+                    //sportsGroups.NumberOfMembersInGroup = numberOfMembersInGroup;
+                    _sportsGroups[i].GroupNumber = groupNumber; 
+                    _sportsGroups[i].NumberOfMembersInGroup = numberOfMembersInGroup; 
+                    Console.WriteLine($"Trener {_coaches[i].Name} {_coaches[i].Surname}  {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} grupa {_sportsGroups[i].GroupNumber} {_sportsGroups[i].NumberOfMembersInGroup}");
+                }
+            }
+            
         }
 
         private int SelectedAction()
@@ -339,7 +385,12 @@ namespace SZOS
         /// <returns></returns>
         public string ShowCoaches(int i)
         {
-            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
+            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
+        }
+
+        public string ShowCoachesDiscipline(int i)
+        {
+            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()} {_sportsGroups[i].GroupNumber} {_sportsGroups[i].NumberOfMembersInGroup}";
         }
 
         /// <summary>
