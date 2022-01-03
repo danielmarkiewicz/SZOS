@@ -23,7 +23,8 @@ namespace SZOS
         /// Konstruktor klasy SZOS_Manager, przyjmuje on póki co dwa parametry, maksymalną liczbę członków klubu, oraz maksymalną liczbę trenerów. 
         /// </summary>
         /// <param name="sizeNumberOfMembers">Maksymalna liczba członków klubu. Numeracja członków zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
-        /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie. Numeracja treneró zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
+        /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie. Numeracja trenerów zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
+        /// <param name="sizeNumberOfGroups">Maksymalna liczba grup w klubie. Numeracja zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
         public SZOS_Manager(int sizeNumberOfMembers, int sizeNumberOfCoach, int sizeNumberOfGroups)
         {
             _members = new Member[sizeNumberOfMembers];
@@ -42,8 +43,8 @@ namespace SZOS
             Console.WriteLine("2 - Dodanie trenera/instruktora");
             Console.WriteLine("3 - Zakupienie karnetu");
             Console.WriteLine("4 - Utworzenie grupy zajęciowej");
-            Console.WriteLine("5 - Grafik zajęć + Zapisy");
-            Console.WriteLine("6 - Rozliczenia");
+            Console.WriteLine("5 - Zapisy do grup zajęciowych");
+            Console.WriteLine("6 - Grafik zajęć");
             Console.WriteLine("7 - Wyszukiwarka członków klubu");
             Console.WriteLine("8 - Wyszukiwarka trenerów/instruktorów");
             Console.WriteLine("0 - Zakończ");
@@ -84,6 +85,7 @@ namespace SZOS
                     }
                     case 5:
                     {
+                        AddMembersToGroup();
                         break;
                     }
 
@@ -101,7 +103,6 @@ namespace SZOS
                         SearchCoaches();
                         break;
                     }
-
                     default:
                     {
                         Console.Write("Nieznane polecenie");
@@ -239,19 +240,19 @@ namespace SZOS
             {
                 if (name == _coaches[i].Name && surname == _coaches[i].Surname)
                 {
-                    Console.WriteLine(ShowCoachesDiscipline(i));
+                    Console.WriteLine(ShowCoaches(i));
                 }
                 else if (name == _coaches[i].Name && surname == "")
                 {
-                    Console.WriteLine(ShowCoachesDiscipline(i));
+                    Console.WriteLine(ShowCoaches(i));
                 }
                 else if (name == "" && surname == _coaches[i].Surname)
                 {
-                    Console.WriteLine(ShowCoachesDiscipline(i));
+                    Console.WriteLine(ShowCoaches(i));
                 }
                 else if (name == "" && surname == "")
                 {
-                    Console.WriteLine(ShowCoachesDiscipline(i));
+                    Console.WriteLine(ShowCoaches(i));
                 }
             }
 
@@ -336,11 +337,13 @@ namespace SZOS
 
             Console.Write("Wpisz numer grupy: ");
             short groupNumber = Convert.ToInt16(Console.ReadLine());
+            sportsGroups.GroupNumber = groupNumber;
 
-            Console.Write("Wpisz maksymalna liczbe osób w gupie :");
-            int numberOfMembersInGroup = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Wpisz maksymalna liczbe osób w gupie: ");
+            var numberOfMembersInGroup = Convert.ToInt32(Console.ReadLine());
+            sportsGroups.NumberOfMembersInGroup = numberOfMembersInGroup;
 
-            Console.Write($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
+            Console.WriteLine($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
             for (int i = 1; i < _numberOfCoaches; i++)
             {
                 if (sportsDiscipline == _coaches[i].SportsDiscipline)
@@ -357,14 +360,13 @@ namespace SZOS
             {
                 if (licenceNumber == _coaches[i].LicenseNumber)
                 {
-                    //sportsGroups.GroupNumber = groupNumber;
-                    //sportsGroups.NumberOfMembersInGroup = numberOfMembersInGroup;
                     _sportsGroups[i].GroupNumber = groupNumber; 
                     _sportsGroups[i].NumberOfMembersInGroup = numberOfMembersInGroup; 
                     Console.WriteLine($"Trener {_coaches[i].Name} {_coaches[i].Surname}  {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} grupa {_sportsGroups[i].GroupNumber} {_sportsGroups[i].NumberOfMembersInGroup}");
                 }
             }
-            
+
+            Console.ReadKey();
         }
 
         private int SelectedAction()
@@ -388,9 +390,12 @@ namespace SZOS
             return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
         }
 
-        public string ShowCoachesDiscipline(int i)
+        public void AddMembersToGroup()
         {
-            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()} {_sportsGroups[i].GroupNumber} {_sportsGroups[i].NumberOfMembersInGroup}";
+            for (int i = 1; i < _numberOfGroups; i++)
+            {
+                Console.WriteLine($"Grupa numer {_sportsGroups[i].GroupNumber} {_coaches[i].SportsDiscipline} Maksymalna liczba członków: {_sportsGroups[i].NumberOfMembersInGroup} {_coaches[i].TypeOfPerson()} {_coaches[i].Name} {_coaches[i].Surname}  {_coaches[i].LicenseNumber}");
+            }
         }
 
         /// <summary>
