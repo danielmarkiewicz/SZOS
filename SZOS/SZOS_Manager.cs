@@ -15,9 +15,7 @@ namespace SZOS
         private Member[] _members;
         private Coach[] _coaches;
         private SportsGroups[] _sportsGroups;
-        private int _numberOfMembers = 1;
-        private int _numberOfCoaches = 1;
-        private int _numberOfGroups = 1;
+        private int _numberOfMembers = 1, _numberOfCoaches = 1, _numberOfGroups = 1;
 
         /// <summary>
         /// Konstruktor klasy SZOS_Manager, przyjmuje on póki co dwa parametry, maksymalną liczbę członków klubu, oraz maksymalną liczbę trenerów. 
@@ -111,6 +109,17 @@ namespace SZOS
                 }
             }
             while (action != 0);
+        }
+
+        private int SelectedAction()
+        {
+            Console.Write("Akcja: ");
+            string action = Console.ReadLine();
+            if (string.IsNullOrEmpty(action))
+            {
+                return -1;
+            }
+            return int.Parse(action);
         }
 
         /// <summary>
@@ -323,7 +332,6 @@ namespace SZOS
             }
         }
 
-
         /// <summary>
         /// CreateClass tworzy grupy zajęciowe na podstawie dyscypliny sportowej
         /// </summary>
@@ -367,17 +375,6 @@ namespace SZOS
             }
 
             Console.ReadKey();
-        }
-
-        private int SelectedAction()
-        {
-            Console.Write("Akcja: ");
-            string action = Console.ReadLine();
-            if (string.IsNullOrEmpty(action))
-            {
-                return -1;
-            }
-            return int.Parse(action);
         }
 
         /// <summary>
