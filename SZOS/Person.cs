@@ -84,11 +84,11 @@ namespace SZOS
 
         public Person(string name, string surname, string address, string sex, long pesel)
         {
-            Name = name;
-            Surname = surname;
-            Address = address;
-            Sex = sex;
-            Pesel = pesel;
+            this.name = name;
+            this.surname = surname;
+            this.address = address;
+            this.sex = sex;
+            this.pesel = pesel;
         }
 
         public abstract string TypeOfPerson();
