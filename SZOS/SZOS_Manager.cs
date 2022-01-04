@@ -42,7 +42,7 @@ namespace SZOS
             Console.WriteLine("3 - Zakupienie karnetu");
             Console.WriteLine("4 - Utworzenie grupy zajęciowej");
             Console.WriteLine("5 - Zapisy do grup zajęciowych");
-            Console.WriteLine("6 - Grafik zajęć");
+            Console.WriteLine("6 - Wyszukiwarka grup zajęciowych");
             Console.WriteLine("7 - Wyszukiwarka członków klubu");
             Console.WriteLine("8 - Wyszukiwarka trenerów/instruktorów");
             Console.WriteLine("0 - Zakończ");
@@ -89,6 +89,7 @@ namespace SZOS
 
                     case 6:
                     {
+                        SearchGroups();
                         break;
                     }
                     case 7:
@@ -233,6 +234,38 @@ namespace SZOS
             Console.ReadKey();
         }
 
+        public void SearchGroups()
+        {
+            string name, surname;
+
+            Console.Write("Wpisz numer grupy: ");
+            name = Console.ReadLine();
+            Console.Write("Wpisz nazwisko wyszukiwanej osoby: ");
+            surname = Console.ReadLine();
+
+            for (int i = 1; i < _numberOfMembers; i++)
+            {
+                if (name == _members[i].Name && surname == _members[i].Surname)
+                {
+                    Console.WriteLine(ShowGroupsWithMembers(i));
+                }
+                else if (name == _members[i].Name && surname == "")
+                {
+                    Console.WriteLine(ShowGroupsWithMembers(i));
+                }
+                else if (name == "" && surname == _members[i].Surname)
+                {
+                    Console.WriteLine(ShowGroupsWithMembers(i));
+                }
+                else if (name == "" && surname == "")
+                {
+                    Console.WriteLine(ShowGroupsWithMembers(i));
+                }
+            }
+
+            Console.ReadKey();
+        }
+
         /// <summary>
         /// ShowCoaches wyświetla wszystkich trenerów/instruktorów w klubie
         /// </summary>
@@ -349,7 +382,7 @@ namespace SZOS
 
             Console.Write("Wpisz maksymalna liczbe osób w gupie: ");
             var numberOfMembersInGroup = Convert.ToInt32(Console.ReadLine());
-            sportsGroups.NumberOfMembersInGroup = numberOfMembersInGroup;
+            sportsGroups.MaxNumberOfMembersInGroup = numberOfMembersInGroup;
 
             Console.WriteLine($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
             for (int i = 1; i < _numberOfCoaches; i++)
@@ -368,31 +401,71 @@ namespace SZOS
             {
                 if (licenceNumber == _coaches[i].LicenseNumber)
                 {
+                    _sportsGroups[i].Name = _coaches[i].Name;
+                    _sportsGroups[i].Surname = _coaches[i].Surname;
+                    _sportsGroups[i].SportsDiscipline = _coaches[i].SportsDiscipline;
+                    _sportsGroups[i].LicenseNumber = _coaches[i].LicenseNumber;
+
+                    _sportsGroups[i].MembersInGroup = 0;
                     _sportsGroups[i].GroupNumber = groupNumber; 
-                    _sportsGroups[i].NumberOfMembersInGroup = numberOfMembersInGroup; 
-                    Console.WriteLine($"Trener {_coaches[i].Name} {_coaches[i].Surname}  {_coaches[i].SportsDiscipline} {_coaches[i].LicenseNumber} grupa {_sportsGroups[i].GroupNumber} {_sportsGroups[i].NumberOfMembersInGroup}");
+                    _sportsGroups[i].MaxNumberOfMembersInGroup = numberOfMembersInGroup; 
+                    Console.WriteLine($"Trener {_sportsGroups[i].Name} {_sportsGroups[i].Surname} {_sportsGroups[i].SportsDiscipline} {_sportsGroups[i].LicenseNumber} grupa {_sportsGroups[i].GroupNumber} {_sportsGroups[i].MaxNumberOfMembersInGroup}");
                 }
             }
 
             Console.ReadKey();
         }
 
-        /// <summary>
-        /// ShowCoaches zwaraca dane trenerów/instruktorów
-        /// </summary>
-        /// <param name="i">Służy do określeni id zwracanego trenera. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
-        /// <returns></returns>
-        public string ShowCoaches(int i)
-        {
-            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
-        }
-
         public void AddMembersToGroup()
         {
+            
+            Console.Write("Dostępne grupy zajęciowe w klubie: ");
             for (int i = 1; i < _numberOfGroups; i++)
             {
-                Console.WriteLine($"Grupa numer {_sportsGroups[i].GroupNumber} {_coaches[i].SportsDiscipline} Maksymalna liczba członków: {_sportsGroups[i].NumberOfMembersInGroup} {_coaches[i].TypeOfPerson()} {_coaches[i].Name} {_coaches[i].Surname}  {_coaches[i].LicenseNumber}");
+                Console.WriteLine($"Grupa numer {_sportsGroups[i].GroupNumber} " +
+                                  $"Dyscyplina sportowa {_sportsGroups[i].SportsDiscipline} " +
+                                  $"Maksymalna liczba członków: {_sportsGroups[i].MaxNumberOfMembersInGroup} " +
+                                  $"Aktualna liczba członków {_sportsGroups[i].MembersInGroup} " +
+                                  $"{_sportsGroups[i].TypeOfPerson()} {_sportsGroups[i].Name} {_sportsGroups[i].Surname}  {_sportsGroups[i].LicenseNumber}");
+
             }
+
+            Console.Write("Wpisz numer grupy: ");
+            var groupNumber = Convert.ToInt16(Console.ReadLine());
+
+            for (int i = 1; i < _numberOfGroups; i++)
+            {
+                if (groupNumber == _sportsGroups[i].GroupNumber)
+                {
+                    if(_sportsGroups[i].MembersInGroup != _sportsGroups[i].MaxNumberOfMembersInGroup)
+                    {
+                        Console.Write("Podaj numer członkowski: ");
+                        var membershipNumber = Convert.ToInt32(Console.ReadLine());
+
+                        for (int j = 1; j < _numberOfMembers; j++)
+                        {
+                            if (membershipNumber == _members[j].MemberShipNumber)
+                            {
+                                //_sportsGroups[i].member.Name = _members[j].Name;
+                                //Console.WriteLine(_sportsGroups[i].member.Name = _members[j].Name);
+                                _members[i].MemberSportsGroup = groupNumber;
+                                Console.WriteLine($"{_members[j].TypeOfPerson()} {_members[j].Name} {_members[j].Surname} {_members[j].MemberShipNumber} został zapisany do grupy {_members[i].MemberSportsGroup}");
+                                _sportsGroups[i].MembersInGroup++;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Grupa {_sportsGroups[i].GroupNumber} posiada maksymalną liczbę członków");
+                    }
+                }
+            }
+            Console.ReadKey();
+        }
+
+        public string ShowGroupsWithMembers(int i)
+        {
+            return $"Grupa: {_members[i].MemberSportsGroup} {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
         }
 
         /// <summary>
@@ -404,5 +477,17 @@ namespace SZOS
         {
             return $"{i} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
         }
+
+
+        /// <summary>
+        /// ShowCoaches zwaraca dane trenerów/instruktorów
+        /// </summary>
+        /// <param name="i">Służy do określeni id zwracanego trenera. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
+        /// <returns></returns>
+        public string ShowCoaches(int i)
+        {
+            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
+        }
+
     }
 }

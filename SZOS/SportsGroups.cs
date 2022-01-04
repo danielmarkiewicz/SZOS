@@ -8,21 +8,35 @@ namespace SZOS
 {
     class SportsGroups : Coach
     {
-        private int numberOfMembersInGroup;
+        public Member member = new Member();
+        private int maxNumberOfMembersInGroup, membersInGroup;
         private short groupNumber;
 
         public SportsGroups()
         { 
         }
 
-        public int NumberOfMembersInGroup
+        public int MembersInGroup
         {
-            get => numberOfMembersInGroup;
+            get => membersInGroup;
+
+            set
+            {
+                if (value > 0)
+                {
+                    membersInGroup = value;
+                }
+            }
+        }
+
+        public int MaxNumberOfMembersInGroup
+        {
+            get => maxNumberOfMembersInGroup;
             set
             {
                 if (value != 0)
                 {
-                    numberOfMembersInGroup = value;
+                    maxNumberOfMembersInGroup = value;
                 }
             }
         }
@@ -37,6 +51,11 @@ namespace SZOS
                     groupNumber = value;
                 }
             }
+        }
+
+        public override string TypeOfPerson()
+        {
+            return "Grupa trenera ";
         }
     }
 }

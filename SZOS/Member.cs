@@ -15,6 +15,7 @@ namespace SZOS
     {
         private static readonly Random getrandom = new Random();
         private int membershipNumber;
+        private short memberSportsGroup;
         private string membershipCard;
         private bool rodo;
 
@@ -22,6 +23,12 @@ namespace SZOS
         {
             MemberShipNumber = membershipNumber;
             MemberShipCard = membershipCard;
+        }
+
+        public short MemberSportsGroup
+        {
+            get => memberSportsGroup;
+            set => memberSportsGroup = value;
         }
 
         public int MemberShipNumber
