@@ -16,7 +16,7 @@ namespace SZOS
         private Coach[] _coaches;
         private SportsGroups[] _sportsGroups;
         private SportsGroups[] _listOfMembersInSportsGroup;
-        private int _numberOfMembers = 1, _numberOfCoaches = 1, _numberOfGroups = 1;
+        private int _numberOfMembers = 0, _numberOfCoaches = 0, _numberOfGroups = 0;
 
         /// <summary>
         /// Konstruktor klasy SZOS_Manager, przyjmuje on trzy parametry, maksymalną liczbę członków klubu, maksymalną liczbę trenerów oraz maskysmalną liczbę grup. 
@@ -47,7 +47,7 @@ namespace SZOS
             Console.WriteLine("6 - Wyszukiwarka grup zajęciowych");
             Console.WriteLine("7 - Wyszukiwarka członków klubu");
             Console.WriteLine("8 - Wyszukiwarka trenerów/instruktorów");
-            Console.WriteLine("0 - Zakończ");
+            Console.WriteLine("ESC - Zakończ");
         }
 
         /// <summary>
@@ -55,63 +55,61 @@ namespace SZOS
         /// </summary>
         public void Run()
         {
-            int action;
+            ConsoleKeyInfo buttonMenu;
             do
             {
                 PrintMainMenu();
-                action = SelectedAction();
-
-                switch (action)
+                buttonMenu = Console.ReadKey();
+                switch (buttonMenu.Key)
                 {
-                    case 1:
+                    case ConsoleKey.D1:
                     {
                         AddNewMember();
                         break;
                     }
-                    case 2:
+                    case ConsoleKey.D2:
                     {
                         AddNewCoach();
                         break;
                     }
-                    case 3:
+                    case ConsoleKey.D3:
                     {
                         AddTypeOfCardToMember();
                         break;
                     }
-                    case 4:
+                    case ConsoleKey.D4:
                     {
                         CreateSportsGroup();
                         break;
                     }
-                    case 5:
+                    case ConsoleKey.D5:
                     {
                         AddMembersToGroup();
                         break;
                     }
-
-                    case 6:
+                    case ConsoleKey.D6:
                     {
                         SearchGroups();
                         break;
                     }
-                    case 7:
+                    case ConsoleKey.D7:
                     {
                         SearchMemberOrMembers();
                         break;
                     }
-                    case 8:
+                    case ConsoleKey.D8:
                     {
                         SearchCoaches();
                         break;
-                    }
-                    default:
+                    }  
+                    case ConsoleKey.D9:
                     {
-                        Console.Write("Nieznane polecenie");
+                        Environment.Exit(0);
                         break;
                     }
                 }
             }
-            while (action != 0);
+            while (buttonMenu.Key != ConsoleKey.Escape);
         }
 
         private int SelectedAction()
@@ -130,41 +128,48 @@ namespace SZOS
         /// </summary>
         public void AddNewMember()
         {
-            string rodoAccept;
+            Console.Clear();
             if (_numberOfMembers < _members.Length)
             {
                 Member newMember = new Member();
-                Console.Write("Czy osoba wyraża zgodę RODO? (Tak/Nie): ");
-                rodoAccept = Console.ReadLine();
-                if (rodoAccept == "Tak")
+                Console.WriteLine("Dodawanie nowego członka. Wypełnij następujące pola: ");
+                Console.Write("Czy osoba wyraża zgodę RODO? (Kliknięcie t = Tak, Kliknięcie n = Nie): ");
+                ConsoleKeyInfo buttonRodo = Console.ReadKey();
+                if (buttonRodo.Key == ConsoleKey.T)
                 {
                     newMember.Rodo = true;
                 }
+                Console.WriteLine();
                 if (newMember.Rodo == true)
                 {
+                    Console.WriteLine("Wypełnij następujące pola: ");
                     Console.Write("Imie: ");
                     newMember.Name = Console.ReadLine();
                     Console.Write("Nazwisko: ");
                     newMember.Surname = Console.ReadLine();
-                    Console.Write("Adres: ");
+                    Console.Write("Adres (Ulica, Miasto, Kod pocztowy): ");
                     newMember.Address = Console.ReadLine();
                     Console.Write("PESEL: ");
                     newMember.Pesel = Convert.ToInt64(Console.ReadLine());
-                    Console.Write("Płeć: ");
+                    Console.Write("Płeć (M/K): ");
                     newMember.Sex = Console.ReadLine();
+                    Console.WriteLine("Aby zakończyć naciśnij ENTER");
                     _members[_numberOfMembers++] = newMember;
                 }
-                else if (rodoAccept == "Nie")
+                else if (buttonRodo.Key == ConsoleKey.N)
                 {
+                    Console.WriteLine();
                     Console.WriteLine("Zgoda RODO konieczna do założenia konta nowemu członkowi");
+                    Console.WriteLine("Aby zakończyć naciśnij ENTER");
                     newMember.Rodo = false;
                 }
             }
             else
             {
-                Console.WriteLine("---------Brak miejsc w klubie-------");
-                Console.ReadKey();
+                Console.WriteLine("Brak miejsc w klubie");
+                Console.WriteLine("Aby zakończyć naciśnij ENTER");
             }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -172,18 +177,20 @@ namespace SZOS
         /// </summary>
         public void AddNewCoach()
         {
+            Console.Clear();
             if (_numberOfCoaches < _coaches.Length)
             {
+                Console.WriteLine("Dodawanie nowego trenera/instruktora. Wypełnij następujące pola: ");
                 Coach newCoach = new Coach();
                 Console.Write("Imie: ");
                 newCoach.Name = Console.ReadLine();
                 Console.Write("Nazwisko: ");
                 newCoach.Surname = Console.ReadLine();
-                Console.Write("Adres: ");
+                Console.Write("Adres (Ulica, Miasto, Kod pocztowy): ");
                 newCoach.Address = Console.ReadLine();
                 Console.Write("PESEL: ");
                 newCoach.Pesel = Convert.ToInt64(Console.ReadLine());
-                Console.Write("Płeć: ");
+                Console.Write("Płeć (M/K): ");
                 newCoach.Sex = Console.ReadLine();
                 Console.Write("Dyscyplina: ");
                 newCoach.SportsDiscipline = Console.ReadLine();
@@ -193,12 +200,16 @@ namespace SZOS
                 newCoach.HourlyRate = Convert.ToDecimal(Console.ReadLine());
 
                 _coaches[_numberOfCoaches++] = newCoach;
+
+                Console.WriteLine("Aby zakończyć naciśnij ENTER");
+                Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("---------Brak miejsc w klubie-------");
-                Console.ReadKey();
+                Console.WriteLine("Brak miejsc w klubie"); 
+                Console.WriteLine("Aby zakończyć naciśnij ENTER");
             }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -207,30 +218,42 @@ namespace SZOS
         public void SearchMemberOrMembers()
         {
             string name, surname;
-
-            Console.Write("Wpisz imie wyszukiwanej osoby: ");
-            name = Console.ReadLine();
-            Console.Write("Wpisz nazwisko wyszukiwanej osoby: ");
-            surname = Console.ReadLine();
-
-            for (int i = 0; i < _numberOfMembers; i++)
+            Console.Clear();
+            Console.WriteLine("Wyszukiawrka członków klubu.");
+            if (_numberOfMembers != 0)
             {
-                if (name == _members[i].Name && surname == _members[i].Surname)
+                Console.Write("Wpisz imie osoby lub pozostaw puste zatwierdzając ENTER: ");
+                name = Console.ReadLine();
+                Console.Write("Wpisz nazwisko osoby lub pozostaw puste zatwierdzając ENTER: ");
+                surname = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("Lista członków klubu: ");
+                for (int i = 0; i < _numberOfMembers; i++)
                 {
-                    Console.WriteLine(ShowMembers(i));
+                    if (name == _members[i].Name && surname == _members[i].Surname)
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
+                    else if (name == _members[i].Name && surname == "")
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
+                    else if (name == "" && surname == _members[i].Surname)
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
+                    else if (name == "" && surname == "")
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
                 }
-                else if (name == _members[i].Name && surname == "")
-                {
-                    Console.WriteLine(ShowMembers(i));
-                }
-                else if (name == "" && surname == _members[i].Surname)
-                {
-                    Console.WriteLine(ShowMembers(i));
-                }
-                else if (name == "" && surname == "")
-                {
-                    Console.WriteLine(ShowMembers(i)); 
-                }
+
+                Console.WriteLine("Aby zakończyć naciśnij ENTER");
+            }
+            else
+            {
+                Console.WriteLine("Brak osób w bazie danych.");
+                Console.WriteLine("Aby zakończyć naciśnij ENTER");
             }
 
             Console.ReadKey();
@@ -239,30 +262,36 @@ namespace SZOS
         public void SearchGroups()
         {
             string name, surname;
-
-            Console.Write("Wpisz numer grupy: ");
-            name = Console.ReadLine();
-            Console.Write("Wpisz nazwisko wyszukiwanej osoby: ");
-            surname = Console.ReadLine();
-
-            for (int i = 0; i < _numberOfMembers; i++)
+            if(_numberOfMembers != 0)
             {
-                if (name == _members[i].Name && surname == _members[i].Surname)
+                Console.Write("Wpisz numer grupy: ");
+                name = Console.ReadLine();
+                Console.Write("Wpisz nazwisko wyszukiwanej osoby: ");
+                surname = Console.ReadLine();
+
+                for (int i = 0; i < _numberOfMembers; i++)
                 {
-                    Console.WriteLine(ShowGroupsWithMembers(i));
+                    if (name == _members[i].Name && surname == _members[i].Surname)
+                    {
+                        Console.WriteLine(ShowGroupsWithMembers(i));
+                    }
+                    else if (name == _members[i].Name && surname == "")
+                    {
+                        Console.WriteLine(ShowGroupsWithMembers(i));
+                    }
+                    else if (name == "" && surname == _members[i].Surname)
+                    {
+                        Console.WriteLine(ShowGroupsWithMembers(i));
+                    }
+                    else if (name == "" && surname == "")
+                    {
+                        Console.WriteLine(ShowGroupsWithMembers(i));
+                    }
                 }
-                else if (name == _members[i].Name && surname == "")
-                {
-                    Console.WriteLine(ShowGroupsWithMembers(i));
-                }
-                else if (name == "" && surname == _members[i].Surname)
-                {
-                    Console.WriteLine(ShowGroupsWithMembers(i));
-                }
-                else if (name == "" && surname == "")
-                {
-                    Console.WriteLine(ShowGroupsWithMembers(i));
-                }
+            }
+            else
+            {
+                Console.WriteLine("Brak członków w bazie danych.");
             }
 
             Console.ReadKey();
@@ -274,30 +303,42 @@ namespace SZOS
         public void SearchCoaches()
         {
             string name, surname;
-
-            Console.Write("Wpisz imie trenera/instruktora: ");
-            name = Console.ReadLine();
-            Console.Write("Wpisz trenera/instruktora osoby: ");
-            surname = Console.ReadLine();
-
-            for (int i = 0; i < _numberOfCoaches; i++)
+            Console.Clear();
+            Console.WriteLine("Wyszukiawrka trenerów/instruktorów.");
+            if(_numberOfCoaches != 0)
             {
-                if (name == _coaches[i].Name && surname == _coaches[i].Surname)
+                Console.Write("Wpisz imie trenera/instruktora lub pozostaw puste zatwierdzając ENTER: ");
+                name = Console.ReadLine();
+                Console.Write("Wpisz trenera/instruktora osoby lub pozostaw puste zatwierdzając ENTER: ");
+                surname = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("Lista trenerów/instruktorów: ");
+                for (int i = 0; i < _numberOfCoaches; i++)
                 {
-                    Console.WriteLine(ShowCoaches(i));
+                    if (name == _coaches[i].Name && surname == _coaches[i].Surname)
+                    {
+                        Console.WriteLine(ShowCoaches(i));
+                    }
+                    else if (name == _coaches[i].Name && surname == "")
+                    {
+                        Console.WriteLine(ShowCoaches(i));
+                    }
+                    else if (name == "" && surname == _coaches[i].Surname)
+                    {
+                        Console.WriteLine(ShowCoaches(i));
+                    }
+                    else if (name == "" && surname == "")
+                    {
+                        Console.WriteLine(ShowCoaches(i));
+                    }
                 }
-                else if (name == _coaches[i].Name && surname == "")
-                {
-                    Console.WriteLine(ShowCoaches(i));
-                }
-                else if (name == "" && surname == _coaches[i].Surname)
-                {
-                    Console.WriteLine(ShowCoaches(i));
-                }
-                else if (name == "" && surname == "")
-                {
-                    Console.WriteLine(ShowCoaches(i));
-                }
+
+                Console.WriteLine("Aby zakończyć naciśnij ENTER");
+            }
+            else
+            {
+                Console.WriteLine("Brak trenerów/instruktorów w bazie danych.");
+                Console.WriteLine("Aby zakończyć naciśnij ENTER");
             }
 
             Console.ReadKey();
@@ -357,45 +398,59 @@ namespace SZOS
             SportsGroups sportsGroups = new SportsGroups();
             string sportsDiscipline;
             string licenceNumber;
-            Console.Write("Wpisz dyscyplinę sportową grupy: ");
-            sportsDiscipline = Console.ReadLine();
 
-            Console.Write("Wpisz numer grupy: ");
-            short groupNumber = Convert.ToInt16(Console.ReadLine());
-            sportsGroups.GroupNumber = groupNumber;
-
-            Console.Write("Wpisz maksymalna liczbe osób w gupie: ");
-            var numberOfMembersInGroup = Convert.ToInt32(Console.ReadLine());
-            sportsGroups.MaxNumberOfMembersInGroup = numberOfMembersInGroup;
-
-            Console.WriteLine($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
             for (int i = 0; i < _numberOfCoaches; i++)
             {
-                if (sportsDiscipline == _coaches[i].SportsDiscipline)
+
+                if (_coaches[i] != null)
                 {
-                    Console.WriteLine(ShowCoaches(i));
+
+                    Console.Write("Wpisz dyscyplinę sportową grupy: ");
+                    sportsDiscipline = Console.ReadLine();
+
+                    Console.Write("Wpisz numer grupy: ");
+                    short groupNumber = Convert.ToInt16(Console.ReadLine());
+                    sportsGroups.GroupNumber = groupNumber;
+
+                    Console.Write("Wpisz maksymalna liczbe osób w gupie: ");
+                    var numberOfMembersInGroup = Convert.ToInt32(Console.ReadLine());
+                    sportsGroups.MaxNumberOfMembersInGroup = numberOfMembersInGroup;
+
+                    Console.WriteLine($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
+
+                    if (sportsDiscipline == _coaches[i].SportsDiscipline)
+                    {
+                        Console.WriteLine(ShowCoaches(i));
+                    }
+
+                    _sportsGroups[_numberOfGroups++] = sportsGroups;
+
+                    Console.Write("Wpisz numer licencji wybranego trenera: ");
+                    licenceNumber = Console.ReadLine();
+                    for (int j = 0; i < _numberOfCoaches; i++)
+                    {
+                        if (licenceNumber == _coaches[j].LicenseNumber)
+                        {
+                            _sportsGroups[j].Name = _coaches[j].Name;
+                            _sportsGroups[j].Surname = _coaches[j].Surname;
+                            _sportsGroups[j].SportsDiscipline = _coaches[j].SportsDiscipline;
+                            _sportsGroups[j].LicenseNumber = _coaches[j].LicenseNumber;
+                                          
+                            _sportsGroups[j].MembersInGroup = 0;
+                            _sportsGroups[j].GroupNumber = groupNumber;
+                            _sportsGroups[j].MaxNumberOfMembersInGroup = numberOfMembersInGroup;
+                            Console.WriteLine($"Trener {_sportsGroups[j].Name} {_sportsGroups[j].Surname} {_sportsGroups[j].SportsDiscipline} {_sportsGroups[j].LicenseNumber} grupa {_sportsGroups[j].GroupNumber} {_sportsGroups[j].MaxNumberOfMembersInGroup}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Brak trenerów/instruktorów w bazie danych klubu");
+                    break;
                 }
             }
 
-            _sportsGroups[_numberOfGroups++] = sportsGroups;
-
-            Console.Write("Wpisz numer licencji wybranego trenera: ");
-            licenceNumber = Console.ReadLine();
-            for (int i = 0; i < _numberOfCoaches; i++)
-            {
-                if (licenceNumber == _coaches[i].LicenseNumber)
-                {
-                    _sportsGroups[i].Name = _coaches[i].Name;
-                    _sportsGroups[i].Surname = _coaches[i].Surname;
-                    _sportsGroups[i].SportsDiscipline = _coaches[i].SportsDiscipline;
-                    _sportsGroups[i].LicenseNumber = _coaches[i].LicenseNumber;
-
-                    _sportsGroups[i].MembersInGroup = 0;
-                    _sportsGroups[i].GroupNumber = groupNumber; 
-                    _sportsGroups[i].MaxNumberOfMembersInGroup = numberOfMembersInGroup; 
-                    Console.WriteLine($"Trener {_sportsGroups[i].Name} {_sportsGroups[i].Surname} {_sportsGroups[i].SportsDiscipline} {_sportsGroups[i].LicenseNumber} grupa {_sportsGroups[i].GroupNumber} {_sportsGroups[i].MaxNumberOfMembersInGroup}");
-                }
-            }
+           
 
             Console.ReadKey();
         }
