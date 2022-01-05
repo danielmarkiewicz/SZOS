@@ -15,19 +15,21 @@ namespace SZOS
         private Member[] _members;
         private Coach[] _coaches;
         private SportsGroups[] _sportsGroups;
+        private SportsGroups[] _listOfMembersInSportsGroup;
         private int _numberOfMembers = 1, _numberOfCoaches = 1, _numberOfGroups = 1;
 
         /// <summary>
-        /// Konstruktor klasy SZOS_Manager, przyjmuje on póki co dwa parametry, maksymalną liczbę członków klubu, oraz maksymalną liczbę trenerów. 
+        /// Konstruktor klasy SZOS_Manager, przyjmuje on trzy parametry, maksymalną liczbę członków klubu, maksymalną liczbę trenerów oraz maskysmalną liczbę grup. 
         /// </summary>
-        /// <param name="sizeNumberOfMembers">Maksymalna liczba członków klubu. Numeracja członków zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
-        /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie. Numeracja trenerów zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
-        /// <param name="sizeNumberOfGroups">Maksymalna liczba grup w klubie. Numeracja zaczyna się od 1, dlatego aby system mógł ich przyjąć np.: 100 parametr musi wynosić 101</param>
+        /// <param name="sizeNumberOfMembers">Maksymalna liczba członków klubu.</param>
+        /// <param name="sizeNumberOfCoach">Maksymalna liczba trenerów/instruktorów w klubie.</param>
+        /// <param name="sizeNumberOfGroups">Maksymalna liczba grup w klubie.</param>
         public SZOS_Manager(int sizeNumberOfMembers, int sizeNumberOfCoach, int sizeNumberOfGroups)
         {
             _members = new Member[sizeNumberOfMembers];
             _coaches = new Coach[sizeNumberOfCoach];
             _sportsGroups = new SportsGroups[sizeNumberOfGroups];
+            _listOfMembersInSportsGroup = new SportsGroups[sizeNumberOfMembers];
         }
 
         /// <summary>
@@ -211,7 +213,7 @@ namespace SZOS
             Console.Write("Wpisz nazwisko wyszukiwanej osoby: ");
             surname = Console.ReadLine();
 
-            for (int i = 1; i < _numberOfMembers; i++)
+            for (int i = 0; i < _numberOfMembers; i++)
             {
                 if (name == _members[i].Name && surname == _members[i].Surname)
                 {
@@ -243,7 +245,7 @@ namespace SZOS
             Console.Write("Wpisz nazwisko wyszukiwanej osoby: ");
             surname = Console.ReadLine();
 
-            for (int i = 1; i < _numberOfMembers; i++)
+            for (int i = 0; i < _numberOfMembers; i++)
             {
                 if (name == _members[i].Name && surname == _members[i].Surname)
                 {
@@ -278,7 +280,7 @@ namespace SZOS
             Console.Write("Wpisz trenera/instruktora osoby: ");
             surname = Console.ReadLine();
 
-            for (int i = 1; i < _numberOfCoaches; i++)
+            for (int i = 0; i < _numberOfCoaches; i++)
             {
                 if (name == _coaches[i].Name && surname == _coaches[i].Surname)
                 {
@@ -316,7 +318,7 @@ namespace SZOS
             Console.Write("Wpisz numer karty członkowskiej: ");
             inPutCardNumber = Convert.ToInt32(Console.ReadLine());
             Console.Write("Dodawanie pakietu dla: ");
-            for (int i = 1; i < _numberOfMembers; i++)
+            for (int i = 0; i < _numberOfMembers; i++)
             {
                 if (inPutCardNumber == _members[i].MemberShipNumber)
                 {
@@ -326,7 +328,7 @@ namespace SZOS
             Console.Write($"Wpisz rodzaj pakietu (Silver/Gold/Weekend/Personal): ");
             cardType = Console.ReadLine();
 
-            for (int i = 1; i < _numberOfMembers; i++)
+            for (int i = 0; i < _numberOfMembers; i++)
             {
                 if (inPutCardNumber == _members[i].MemberShipNumber)
                 {
@@ -367,7 +369,7 @@ namespace SZOS
             sportsGroups.MaxNumberOfMembersInGroup = numberOfMembersInGroup;
 
             Console.WriteLine($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
-            for (int i = 1; i < _numberOfCoaches; i++)
+            for (int i = 0; i < _numberOfCoaches; i++)
             {
                 if (sportsDiscipline == _coaches[i].SportsDiscipline)
                 {
@@ -379,7 +381,7 @@ namespace SZOS
 
             Console.Write("Wpisz numer licencji wybranego trenera: ");
             licenceNumber = Console.ReadLine();
-            for (int i = 1; i < _numberOfCoaches; i++)
+            for (int i = 0; i < _numberOfCoaches; i++)
             {
                 if (licenceNumber == _coaches[i].LicenseNumber)
                 {
@@ -402,7 +404,7 @@ namespace SZOS
         {
             
             Console.Write("Dostępne grupy zajęciowe w klubie: ");
-            for (int i = 1; i < _numberOfGroups; i++)
+            for (int i = 0; i < _numberOfGroups; i++)
             {
                 Console.WriteLine($"Grupa numer {_sportsGroups[i].GroupNumber} " +
                                   $"Dyscyplina sportowa {_sportsGroups[i].SportsDiscipline} " +
@@ -415,7 +417,7 @@ namespace SZOS
             Console.Write("Wpisz numer grupy: ");
             var groupNumber = Convert.ToInt16(Console.ReadLine());
 
-            for (int i = 1; i < _numberOfGroups; i++)
+            for (int i = 0; i < _numberOfGroups; i++)
             {
                 if (groupNumber == _sportsGroups[i].GroupNumber)
                 {
@@ -424,7 +426,7 @@ namespace SZOS
                         Console.Write("Podaj numer członkowski: ");
                         var membershipNumber = Convert.ToInt32(Console.ReadLine());
 
-                        for (int j = 1; j < _numberOfMembers; j++)
+                        for (int j = 0; j < _numberOfMembers; j++)
                         {
                             if (membershipNumber == _members[j].MemberShipNumber)
                             {
@@ -457,7 +459,7 @@ namespace SZOS
         /// <returns></returns>
         public string ShowMembers(int i)
         {
-            return $"{i} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
+            return $"{i+1} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
         }
 
 
@@ -468,7 +470,7 @@ namespace SZOS
         /// <returns></returns>
         public string ShowCoaches(int i)
         {
-            return $"{i} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
+            return $"{i+1} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
         }
 
     }
