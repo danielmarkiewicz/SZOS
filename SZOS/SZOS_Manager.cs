@@ -332,26 +332,8 @@ namespace SZOS
                 {
                     if (_members[i].MemberShipCard == "Brak aktywnego karnetu")
                     {
-                        if (cardType == "Silver")
-                        {
-                            _clubCard.TypeOfCard = "Silver";
-                            _members[i].MemberShipCard = _clubCard.TypeOfCard;
-                        }
-                        else if (cardType == "Gold")
-                        {
-                            _clubCard.TypeOfCard = "Gold";
-                            _members[i].MemberShipCard = _clubCard.TypeOfCard;
-                        }
-                        else if (cardType == "Weekend")
-                        {
-                            _clubCard.TypeOfCard = "Weekend";
-                            _members[i].MemberShipCard = _clubCard.TypeOfCard;
-                        }
-                        else if (cardType == "Personal")
-                        {
-                            _clubCard.TypeOfCard = "Personal";
-                            _members[i].MemberShipCard = _clubCard.TypeOfCard;
-                        }
+                        _clubCard.TypeOfCard = cardType;
+                        _members[i].MemberShipCard = _clubCard.TypeOfCard;
 
                         Console.WriteLine($"Użytkownikowi {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} aktywowano karnet {_members[i].MemberShipCard}");
                         Console.ReadKey();
