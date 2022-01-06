@@ -12,7 +12,6 @@ namespace SZOS
     class Coach : Person
     {
         private string sportsDiscipline, licenseNumber;
-        private short workingTime;
         private protected decimal hourlyRate;
 
         public string SportsDiscipline 
@@ -40,19 +39,6 @@ namespace SZOS
             }
         }
 
-        public short WorkingTime
-        {
-            get => workingTime;
-
-            set
-            {
-                if (value > 0)
-                {
-                    workingTime = value;
-                }
-            }
-        }
-
         public decimal HourlyRate
         {
             get => hourlyRate;
@@ -66,12 +52,14 @@ namespace SZOS
             }
         }
 
-        public Coach()
-        {}
-
         public override string TypeOfPerson()
         {
             return $"Trener/Instruktor dyscypliny {SportsDiscipline}";
+        }
+
+        public virtual string CoachGroup()
+        {
+            return "Trener/instruktor prowadzi zajęcia dla grup: ";
         }
     }
 }

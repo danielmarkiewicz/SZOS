@@ -8,7 +8,6 @@ namespace SZOS
 {
     class SportsGroups : Coach
     {
-        public Member member = new Member();
         private int maxNumberOfMembersInGroup, membersInGroup;
         private short groupNumber;
 
@@ -49,7 +48,7 @@ namespace SZOS
             }
         }
 
-        public virtual string CoachGroup()
+        public override string CoachGroup()
         {
             return "Grupa trenera ";
         }

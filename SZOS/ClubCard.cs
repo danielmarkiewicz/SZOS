@@ -6,29 +6,29 @@ using System.Threading.Tasks;
 
 namespace SZOS
 {
-    class ClubCard 
+    class ClubCard : Member
     {
         private string typeOfCard;
-     
-        public string TypeOfCard
+
+        public override string MemberShipCard
         {
             get => typeOfCard;
-
+             
             set
             {
-                if (value == "Silver")
+                if (value == "1")
                 {
                     typeOfCard = "Silver";
                 }
-                else if (value == "Gold")
+                else if (value == "2")
                 {
                     typeOfCard = "Gold";
                 }
-                else if (value == "Weekend")
+                else if (value == "3")
                 {
                     typeOfCard = "Weekend";
                 }
-                else if (value == "Personal")
+                else if (value == "4")
                 {
                     typeOfCard = "Personal";
                 }

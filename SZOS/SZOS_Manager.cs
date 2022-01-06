@@ -253,8 +253,7 @@ namespace SZOS
                         Console.WriteLine(ShowMembers(i));
                     }
                 }
-
-                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+                Console.WriteLine("Aby kontynuować naciśnij ENTER");
             }
             else
             {
@@ -362,8 +361,7 @@ namespace SZOS
         public void AddTypeOfCardToMember()
         {
             ClubCard _clubCard = new ClubCard();
-            int inPutCardNumber;
-            string cardType;
+            int inPutCardNumber, cardType;
             Console.Clear();
             if (_numberOfMembers != 0)
             {
@@ -381,8 +379,9 @@ namespace SZOS
                     }
                 }
 
-                Console.Write($"Wpisz rodzaj pakietu (Silver/Gold/Weekend/Personal): ");
-                cardType = Console.ReadLine();
+                Configure(new string[]{$"Wybierz rodzaj pakietu", "1 - Silver", "2 - Gold", "3 - Weekend","4 - Personal"});
+                
+                cardTypeO= pen;
 
                 for (int i = 0; i < _numberOfMembers; i++)
                 {
@@ -390,8 +389,8 @@ namespace SZOS
                     {
                         if (_members[i].MemberShipCard == "Brak aktywnego karnetu")
                         {
-                            _clubCard.TypeOfCard = cardType;
-                            _members[i].MemberShipCard = _clubCard.TypeOfCard;
+                            _clubCard.MemberShipCard = cardType.ToString();
+                            _members[i].MemberShipCard = _clubCard.MemberShipCard;
 
                             Console.WriteLine($"Użytkownikowi {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} aktywowano karnet {_members[i].MemberShipCard}");
                         }
