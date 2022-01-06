@@ -79,18 +79,6 @@ namespace SZOS
             }
         }
 
-        public Person()
-        {}
-
-        public Person(string name, string surname, string address, string sex, long pesel)
-        {
-            this.name = name;
-            this.surname = surname;
-            this.address = address;
-            this.sex = sex;
-            this.pesel = pesel;
-        }
-
         public abstract string TypeOfPerson();
 
     }

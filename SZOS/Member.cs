@@ -13,6 +13,7 @@ namespace SZOS
     /// </summary>
     class Member : Person
     {
+        private Member[] _members;
         private static readonly Random getrandom = new Random();
         private int membershipNumber;
         private short memberSportsGroup;
@@ -75,5 +76,6 @@ namespace SZOS
         {
             return "Członek klubu";
         }
+        
     }
 }

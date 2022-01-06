@@ -8,11 +8,8 @@ namespace SZOS
 {
     class ClubCard 
     {
-        public ClubCard()
-        { }
-
         private string typeOfCard;
-                
+     
         public string TypeOfCard
         {
             get => typeOfCard;

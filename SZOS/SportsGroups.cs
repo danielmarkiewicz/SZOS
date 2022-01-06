@@ -12,10 +12,6 @@ namespace SZOS
         private int maxNumberOfMembersInGroup, membersInGroup;
         private short groupNumber;
 
-        public SportsGroups()
-        { 
-        }
-
         public int MembersInGroup
         {
             get => membersInGroup;
@@ -53,7 +49,7 @@ namespace SZOS
             }
         }
 
-        public override string TypeOfPerson()
+        public virtual string CoachGroup()
         {
             return "Grupa trenera ";
         }
