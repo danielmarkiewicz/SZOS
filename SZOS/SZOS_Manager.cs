@@ -40,7 +40,7 @@ namespace SZOS
             int buttonMenu, buttonMenuMembers, buttonMenuCoaches, buttonMenuGroups;
             do
             {
-                Configure(new string[] { "System Zarządzania Obiektem Sportowym", "Członkowie", "Trenerzy/Instruktorzy", "Grupy zajęciowe", "Zamknij program" });
+                Configure(new string[] { "System Zarządzania Obiektem Sportowym", "Członkowie", "Trenerzy/Instruktorzy", "Grupy zajęciowe", "Zamknij program - ESC" });
                 buttonMenu = Open();
                 switch (buttonMenu)
                 {
@@ -143,10 +143,7 @@ namespace SZOS
                 if (buttonRodo.Key == ConsoleKey.Enter)
                 {
                     newMember.Rodo = true;
-                }
-                Console.WriteLine();
-                if (newMember.Rodo == true)
-                {
+                
                     Console.WriteLine("Wypełnij następujące pola:");
                     Console.Write("Imie: ");
                     newMember.Name = Console.ReadLine();
@@ -158,8 +155,7 @@ namespace SZOS
                     newMember.Pesel = Convert.ToInt64(Console.ReadLine());
                     Console.Write("Płeć(M/K): ");
                     newMember.Sex = Console.ReadLine();
-
-
+                    
                     Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
                     _members[_numberOfMembers++] = newMember;
                 }
@@ -186,17 +182,17 @@ namespace SZOS
             Console.Clear();
             if (_numberOfCoaches < _coaches.Length)
             {
-                Console.WriteLine("Dodawanie nowego trenera/instruktora. Wypełnij następujące pola: ");
+                MethodsWriteLineElementColor(new string[] { "Dodawanie nowego trenera/instruktora", "Wypełnij następujące pola: "});
                 Coach newCoach = new Coach();
                 Console.Write("Imie: ");
                 newCoach.Name = Console.ReadLine();
                 Console.Write("Nazwisko: ");
                 newCoach.Surname = Console.ReadLine();
-                Console.Write("Adres (Ulica, Miasto, Kod pocztowy): ");
+                Console.Write("Adres ");
                 newCoach.Address = Console.ReadLine();
                 Console.Write("PESEL: ");
                 newCoach.Pesel = Convert.ToInt64(Console.ReadLine());
-                Console.Write("Płeć (M/K): ");
+                Console.Write("Płeć(M/K): ");
                 newCoach.Sex = Console.ReadLine();
                 Console.Write("Dyscyplina: ");
                 newCoach.SportsDiscipline = Console.ReadLine();
@@ -212,8 +208,7 @@ namespace SZOS
             }
             else
             {
-                Console.WriteLine("Brak miejsc w klubie");
-                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+                MethodsWriteLineElementColor(new string[] {"Brak miejsc w klubie", "Aby powrócić do MENU naciśnij ENTER"});
             }
             Console.ReadKey();
         }
@@ -225,7 +220,7 @@ namespace SZOS
         {
             string name, surname;
             Console.Clear();
-            Console.WriteLine("Wyszukiawrka członków klubu.");
+            MethodsWriteLineElementColor(new string[]{ "------------Wyszukiawrka członków klubu-----------------" }); 
             if (_numberOfMembers != 0)
             {
                 Console.Write("Wpisz imie osoby lub pozostaw puste zatwierdzając ENTER: ");
@@ -234,6 +229,7 @@ namespace SZOS
                 surname = Console.ReadLine();
                 Console.Clear();
                 Console.WriteLine("Lista członków klubu: ");
+                Console.WriteLine("---------------------");
                 for (int i = 0; i < _numberOfMembers; i++)
                 {
                     if (name == _members[i].Name && surname == _members[i].Surname)
@@ -315,7 +311,7 @@ namespace SZOS
         {
             string name, surname;
             Console.Clear();
-            Console.WriteLine("Wyszukiawrka trenerów/instruktorów.");
+            Console.WriteLine("------------------Wyszukiawrka trenerów/instruktorów------------------");
             if (_numberOfCoaches != 0)
             {
                 Console.Write("Wpisz imie trenera/instruktora lub pozostaw puste zatwierdzając ENTER: ");
@@ -379,9 +375,10 @@ namespace SZOS
                     }
                 }
 
-                Configure(new string[]{$"Wybierz rodzaj pakietu", "1 - Silver", "2 - Gold", "3 - Weekend","4 - Personal"});
+                Console.Clear();
+                Configure(new string[]{$"Wybierz rodzaj pakietu", "Silver", "Gold", "Weekend","Personal"});
                 
-                cardTypeO= pen;
+                cardType = Open();
 
                 for (int i = 0; i < _numberOfMembers; i++)
                 {
@@ -392,11 +389,15 @@ namespace SZOS
                             _clubCard.MemberShipCard = cardType.ToString();
                             _members[i].MemberShipCard = _clubCard.MemberShipCard;
 
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine($"Użytkownikowi {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} aktywowano karnet {_members[i].MemberShipCard}");
                         }
                         else
                         {
-                            Console.WriteLine($"Osoba o numerze karty {_members[i].MemberShipNumber} posiada już karnety typu {_members[i].MemberShipCard} w klubie. Enter");
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine($"Osoba o numerze karty {_members[i].MemberShipNumber} posiada już karnety typu {_members[i].MemberShipCard} w klubie.");
                         }
                     }
                 }
@@ -404,8 +405,7 @@ namespace SZOS
             }
             else
             {
-                Console.WriteLine("Brak osób w bazie danych.");
-                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+                MethodsWriteLineElementColor(new string[]{ "Brak osób w bazie danych.", "Aby powrócić do MENU naciśnij ENTER" });
             }
             Console.ReadKey();
         }
@@ -552,25 +552,40 @@ namespace SZOS
         {
             return $"Grupa: {_members[i].MemberSportsGroup} {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
         }
-
         /// <summary>
         /// ShowCoaches zwaraca dane członków
         /// </summary>
         /// <param name="i">Służy do określeni id zwracanego członka. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
-        /// <returns></returns>
+        /// <returns>Zwraca informacje o użytkowniku</returns>
         public string ShowMembers(int i)
         {
-            return $"{i + 1} {_members[i].Name} {_members[i].Surname} {_members[i].Address} {_members[i].Pesel} {_members[i].Sex} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
+            return $"Id: {i + 1} " + "\n" +
+                   $"Imie: {_members[i].Name} " + "\n" +
+                   $"Nazwisko: {_members[i].Surname} " + "\n" +
+                   $"Adres: {_members[i].Address} " + "\n" +
+                   $"PESEL: {_members[i].Pesel} " + "\n" +
+                   $"Płeć: {_members[i].Sex} " + "\n" +
+                   $"Numer członkowski: {_members[i].MemberShipNumber} " + "\n" +
+                   $"{_members[i].TypeOfPerson()} posiadający karnet {_members[i].MemberShipCard}" + "\n" +
+                   $"";
         }
 
         /// <summary>
         /// ShowCoaches zwaraca dane trenerów/instruktorów
         /// </summary>
         /// <param name="i">Służy do określeni id zwracanego trenera. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
-        /// <returns></returns>
+        /// <returns>Zwraca informacje o trenerze</returns>
         public string ShowCoaches(int i)
         {
-            return $"{i + 1} {_coaches[i].Name} {_coaches[i].Surname} {_coaches[i].Address} {_coaches[i].Pesel} {_coaches[i].Sex} {_coaches[i].LicenseNumber} {_coaches[i].HourlyRate} {_coaches[i].TypeOfPerson()}";
+            return $"Id: {i + 1} " + "\n" +
+                   $"Imie: {_coaches[i].Name} " + "\n" +
+                   $"Nazwisko: {_coaches[i].Surname} " + "\n" +
+                   $"Adres: {_coaches[i].Address} " + "\n" +
+                   $"PESEL: {_coaches[i].Pesel} " + "\n" +
+                   $"Płeć: {_coaches[i].Sex} " + "\n" +
+                   $"Numer członkowski: {_coaches[i].LicenseNumber} " + "\n" +
+                   $"{_coaches[i].TypeOfPerson()}. Stawka za godzinę zajęć: {_coaches[i].HourlyRate}" + "\n" +
+                   $"";
         }
     }
 }
