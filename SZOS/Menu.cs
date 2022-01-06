@@ -43,12 +43,12 @@ namespace SZOS
                 {
                     if (i == choice)
                     {
-                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        Console.BackgroundColor = ConsoleColor.White;
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
                     else
                     {
-                        Console.BackgroundColor = ConsoleColor.Blue;
+                        Console.BackgroundColor = ConsoleColor.Black;
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
@@ -89,28 +89,9 @@ namespace SZOS
 
             for (int i = 0; i < _elementsMethods.Length; i++)
             {
-                Console.BackgroundColor = ConsoleColor.Blue;
+                Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(_elementsMethods[i].PadRight(longestString));
-            }
-        }
-
-        public void MethodsInPutColor(string[] elementsMethod)
-        {
-            if (_elementsMethods != null && elementsMethod.Length > 0)
-            {
-                this._elementsMethods = elementsMethod;
-            }
-
-            longestString = elementsMethod.Max(l => l.Length);
-
-            for (int i = 0; i < _elementsMethods.Length; i++)
-            {
-                Console.BackgroundColor = ConsoleColor.Blue;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine(_elementsMethods[i]);
-                //Console.WriteLine(_elementsMethods[i].PadRight(longestString));
-
             }
         }
     }

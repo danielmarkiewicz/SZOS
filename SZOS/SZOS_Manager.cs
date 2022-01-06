@@ -62,63 +62,66 @@ namespace SZOS
                                 break;
                             }
                             case 2:
-                                {
-                                    SearchMemberOrMembers();
-                                    break;
-                                }
+                            {
+                                SearchMemberOrMembers();
+                                break;
+                            }
                         }
+                        Console.Clear();
                         break;
                     }
                     case 2:
+                    {
+                        Console.Clear();
+                        Configure(new string[] { "Dodanie trenera/instrukora", "Dodanie grupy zajęciowej trenerowi/instruktorowi", "Wyszukiwarka trenerów/instruktorów", "Powrót - ESC" });
+                        buttonMenuCoaches = Open();
+                        switch (buttonMenuCoaches)
                         {
-                            Console.Clear();
-                            Configure(new string[] { "Dodanie trenera/instrukora", "Dodanie grupy zajęciowej trenerowi/instruktorowi", "Wyszukiwarka trenerów/instruktorów", "Powrót - ESC" });
-                            buttonMenuCoaches = Open();
-                            switch (buttonMenuCoaches)
+                            case 0:
                             {
-                                case 0:
-                                    {
-                                        AddNewCoach();
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        CreateSportsGroup();
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        SearchCoaches();
-                                        break;
-                                    }
+                                AddNewCoach();
+                                break;
                             }
-                            break;
+                            case 1:
+                            {
+                                CreateSportsGroup();
+                                break;
+                            }
+                            case 2:
+                            {
+                                SearchCoaches();
+                                break;
+                            }
                         }
+                        Console.Clear();
+                        break;
+                    }
                     case 3:
+                    {
+                        Console.Clear();
+                        Configure(new string[] { "Dodanie członka do grupy zajęciowej",  "Wyszukiwarka grup zajęciowych", "Powrót - ESC" });
+                        buttonMenuGroups = Open();
+                        switch (buttonMenuGroups)
                         {
-                            Console.Clear();
-                            Configure(new string[] { "Dodanie członka do grupy zajęciowej",  "Wyszukiwarka grup zajęciowych", "Powrót - ESC" });
-                            buttonMenuGroups = Open();
-                            switch (buttonMenuGroups)
+                            case 0:
                             {
-                                case 0:
-                                {
-                                    AddMembersToGroup();
-                                    break;
-                                }
-                                case 1:
-                                {
-                                    SearchGroups();
-                                    break;
-                                }
+                                AddMembersToGroup();
+                                break;
                             }
-                            break;
+                            case 1:
+                            {
+                                SearchGroups();
+                                break;
+                            }
                         }
+                        Console.Clear();
+                        break;
+                    }
                     case 4:
-                        {
-                            Environment.Exit(0);
-                            break;
-                        }
+                    {
+                        Environment.Exit(0);
+                        break;
+                    }
                 }
             }
             while (buttonMenu != -1 && buttonMenu != 4);
@@ -133,11 +136,11 @@ namespace SZOS
             if (_numberOfMembers < _members.Length)
             {
                 Member newMember = new Member();
-                //Console.WriteLine("Dodawanie nowego członka. Wypełnij następujące pola: ");
+                MethodsWriteLineElementColor(new string[]{"--------------Dodawanie nowego użytkowinka-------------","Czy osoba wyraża zgodę RODO? (ENTER = Tak, ESC = Nie): "});
                 Console.CursorVisible = false;
-                Console.Write("Czy osoba wyraża zgodę RODO? (Kliknięcie t = Tak, Kliknięcie n = Nie): ");
                 ConsoleKeyInfo buttonRodo = Console.ReadKey();
-                if (buttonRodo.Key == ConsoleKey.T)
+                Console.CursorVisible = true;
+                if (buttonRodo.Key == ConsoleKey.Enter)
                 {
                     newMember.Rodo = true;
                 }
@@ -145,22 +148,22 @@ namespace SZOS
                 if (newMember.Rodo == true)
                 {
                     Console.WriteLine("Wypełnij następujące pola:");
-                    Console.Write("Imie:");
+                    Console.Write("Imie: ");
                     newMember.Name = Console.ReadLine();
-                    Console.Write("Nazwisko:");
+                    Console.Write("Nazwisko: ");
                     newMember.Surname = Console.ReadLine();
-                    Console.Write("Adres (Ulica, Miasto, Kod pocztowy):");
+                    Console.Write("Adres: ");
                     newMember.Address = Console.ReadLine();
-                    Console.Write("PESEL:");
+                    Console.Write("PESEL: ");
                     newMember.Pesel = Convert.ToInt64(Console.ReadLine());
-                    Console.Write("Płeć(M/K):");
+                    Console.Write("Płeć(M/K): ");
                     newMember.Sex = Console.ReadLine();
 
 
                     Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
                     _members[_numberOfMembers++] = newMember;
                 }
-                else if (buttonRodo.Key == ConsoleKey.N)
+                else if (buttonRodo.Key == ConsoleKey.Escape)
                 {
                     Console.WriteLine();
                     MethodsWriteLineElementColor(new string[] { "Zgoda RODO konieczna do założenia konta nowemu członkowi", "Aby powrócić do MENU naciśnij ENTER" });
@@ -171,8 +174,6 @@ namespace SZOS
             {
                 MethodsWriteLineElementColor(new string[] { "Brak miejsc w klubie", "Aby powrócić do MENU naciśnij ENTER" });
             }
-
-            Console.BackgroundColor = ConsoleColor.Black;
             Console.ReadKey();
             Console.Clear();
         }
