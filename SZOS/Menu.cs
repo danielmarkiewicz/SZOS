@@ -12,7 +12,7 @@ namespace SZOS
         private string[] _elementsMethods = new string[0];
 
 
-        public int longestString { get; set; }
+        public int LongestString { get; set; }
 
         public void Configure(string[] elementsMenu)
         {
@@ -21,7 +21,7 @@ namespace SZOS
                 this._elementsMenu = elementsMenu;
             }
 
-            longestString = elementsMenu.Max(w => w.Length);
+            LongestString = elementsMenu.Max(w => w.Length);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace SZOS
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
-                    Console.WriteLine(_elementsMenu[i].PadRight(longestString));
+                    Console.WriteLine(_elementsMenu[i].PadRight(LongestString));
                 }
 
                 button = Console.ReadKey(intercept: true);
@@ -85,13 +85,13 @@ namespace SZOS
                 this._elementsMethods = elementsMethod;
             }
 
-            longestString = elementsMethod.Max(l => l.Length);
+            LongestString = elementsMethod.Max(l => l.Length);
 
             for (int i = 0; i < _elementsMethods.Length; i++)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine(_elementsMethods[i].PadRight(longestString));
+                Console.WriteLine(_elementsMethods[i].PadRight(LongestString));
             }
         }
     }

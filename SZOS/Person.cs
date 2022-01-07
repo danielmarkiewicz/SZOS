@@ -20,10 +20,7 @@ namespace SZOS
             get => pesel;
             set
             {
-                if (pesel != null)
-                {
-                    pesel = value;
-                }
+                pesel = value;
             }
         }
 

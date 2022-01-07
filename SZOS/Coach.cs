@@ -20,6 +20,7 @@ namespace SZOS
         public Coach()
         {
         }
+
         public Coach(int sizeNumberOfCoach)
         {
             _coaches = new Coach[_numberOfCoaches];

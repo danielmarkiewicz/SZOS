@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -16,7 +17,7 @@ namespace SZOS
         protected Member[] _members;
         private Menu menu = new Menu();
         private static readonly Random getrandom = new Random();
-        private int membershipNumber, _numberOfMembers;
+        private int membershipNumber;
         private short memberSportsGroup;
         private string membershipCard;
         private bool rodo;
@@ -25,12 +26,14 @@ namespace SZOS
         {
             MemberShipNumber = membershipNumber;
             MemberShipCard = membershipCard;
+            NumberOfMembers = NumberOfMembers;
         }
 
         public Member(int sizeNumberOfMembers)
         {
             _members = new Member[sizeNumberOfMembers];
         }
+        protected int NumberOfMembers { get; set; }
 
         public short MemberSportsGroup
         {
@@ -89,7 +92,7 @@ namespace SZOS
         public override void AddNew()
         {
             Console.Clear();
-            if (_numberOfMembers < _members.Length)
+            if (NumberOfMembers < _members.Length)
             {
                 Member newMember = new Member();
                 menu.MethodsWriteLineElementColor(new string[] { "--------------Dodawanie nowego użytkowinka-------------", "Czy osoba wyraża zgodę RODO? (ENTER = Tak, ESC = Nie): " });
@@ -113,7 +116,7 @@ namespace SZOS
                     newMember.Sex = Console.ReadLine();
 
                     Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
-                    _members[_numberOfMembers++] = newMember;
+                    _members[NumberOfMembers++] = newMember;
                 }
                 else if (buttonRodo.Key == ConsoleKey.Escape)
                 {
@@ -128,6 +131,105 @@ namespace SZOS
             }
             Console.ReadKey();
             Console.Clear();
+        }
+
+        public override void Search()
+        {
+            string name, surname;
+            Console.Clear();
+            menu.MethodsWriteLineElementColor(new string[]{ "------------Wyszukiawrka członków klubu-----------------" }); 
+            if (NumberOfMembers != 0)
+            {
+                Console.Write("Wpisz imie osoby lub pozostaw puste zatwierdzając ENTER: ");
+                name = Console.ReadLine();
+                Console.Write("Wpisz nazwisko osoby lub pozostaw puste zatwierdzając ENTER: ");
+                surname = Console.ReadLine();
+                Console.Clear();
+                Console.WriteLine("Lista członków klubu: ");
+                Console.WriteLine("---------------------");
+                for (int i = 0; i < NumberOfMembers; i++)
+                {
+                    if (name == _members[i].Name && surname == _members[i].Surname)
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
+                    else if (name == _members[i].Name && surname == "")
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
+                    else if (name == "" && surname == _members[i].Surname)
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
+                    else if (name == "" && surname == "")
+                    {
+                        Console.WriteLine(ShowMembers(i));
+                    }
+                }
+                Console.WriteLine("Aby kontynuować naciśnij ENTER");
+            }
+            else
+            {
+                Console.WriteLine("Brak osób w bazie danych.");
+                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+            }
+
+            Console.ReadKey();
+        }
+         public void AddTypeOfCardToMember()
+         {
+             ClubCard clubCard = new ClubCard();
+            int inPutCardNumber, cardType;
+            Console.Clear();
+            if (this.NumberOfMembers != 0)
+            {
+                Search();
+
+                Console.WriteLine();
+                Console.Write("Wpisz numer karty członkowskiej: ");
+                inPutCardNumber = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Dodawanie pakietu dla: ");
+                for (int i = 0; i < NumberOfMembers; i++)
+                {
+                    if (inPutCardNumber == _members[i].MemberShipNumber)
+                    {
+                        Console.WriteLine($"{_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()}");
+                    }
+                }
+
+                Console.Clear();
+                menu.Configure(new string[]{$"Wybierz rodzaj pakietu", "Silver", "Gold", "Weekend","Personal"});
+                
+                cardType = menu.Open();
+
+                for (int i = 0; i < NumberOfMembers; i++)
+                {
+                    if (inPutCardNumber == _members[i].MemberShipNumber)
+                    {
+                        if (_members[i].MemberShipCard == "Brak aktywnego karnetu")
+                        {
+                            clubCard.MemberShipCard = cardType.ToString();
+                            _members[i].MemberShipCard = clubCard.MemberShipCard;
+
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine($"Użytkownikowi {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} aktywowano karnet {_members[i].MemberShipCard}");
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine($"Osoba o numerze karty {_members[i].MemberShipNumber} posiada już karnety typu {_members[i].MemberShipCard} w klubie.");
+                        }
+                    }
+                }
+                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+            }
+            else
+            {
+                menu.MethodsWriteLineElementColor(new string[]{ "Brak osób w bazie danych.", "Aby powrócić do MENU naciśnij ENTER" });
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -147,5 +249,21 @@ namespace SZOS
                    $"{_members[i].TypeOfPerson()} posiadający karnet {_members[i].MemberShipCard}" + "\n" +
                    $"";
         }
+
+        public void ReadMemberFromData()
+		{
+			string[] lines = File.ReadAllLines("Members.txt");
+			foreach (string word in lines)
+			{
+				Member newMember = new Member();
+				string[] memberData = word.Split(';');
+                newMember.Name = memberData[0];
+                newMember.Surname = memberData[1];
+                newMember.Address = memberData[2];
+                newMember.Pesel = Convert.ToInt64(memberData[3]);
+                newMember.Sex = memberData[4];
+                _members[NumberOfMembers++] = newMember;
+			}	
+		}
     }
 }
