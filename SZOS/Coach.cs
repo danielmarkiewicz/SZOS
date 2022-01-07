@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +12,12 @@ namespace SZOS
     /// </summary>
     class Coach : Person
     {
-        private Coach[] _coaches;
+        protected Coach[] _coaches;
         private Menu menu = new Menu();
+        private SportsGroups sportsGroups = new SportsGroups();
         private string sportsDiscipline, licenseNumber;
         private protected decimal hourlyRate;
-        private int _numberOfCoaches = 0;
+        protected int NumberOfCoaches { get; set; }
 
         public Coach()
         {
@@ -23,11 +25,11 @@ namespace SZOS
 
         public Coach(int sizeNumberOfCoach)
         {
-            _coaches = new Coach[_numberOfCoaches];
+            _coaches = new Coach[sizeNumberOfCoach];
         }
 
-        public string SportsDiscipline 
-        { 
+        public string SportsDiscipline
+        {
             get => sportsDiscipline;
             set
             {
@@ -80,7 +82,7 @@ namespace SZOS
         public override void AddNew()
         {
             Console.Clear();
-            if (_numberOfCoaches < _coaches.Length)
+            if (NumberOfCoaches < _coaches.Length)
             {
                 menu.MethodsWriteLineElementColor(new string[] { "Dodawanie nowego trenera/instruktora", "Wypełnij następujące pola: " });
                 Coach newCoach = new Coach();
@@ -101,7 +103,7 @@ namespace SZOS
                 Console.Write("Stawka za godzinę zajęć: ");
                 newCoach.HourlyRate = Convert.ToDecimal(Console.ReadLine());
 
-                _coaches[_numberOfCoaches++] = newCoach;
+                _coaches[NumberOfCoaches++] = newCoach;
 
                 Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
                 Console.ReadKey();
@@ -113,7 +115,7 @@ namespace SZOS
             Console.ReadKey();
         }
 
-        public virtual string ShowCoaches(int i)
+        public string ShowCoaches(int i)
         {
             return $"Id: {i + 1} " + "\n" +
                    $"Imie: {_coaches[i].Name} " + "\n" +
@@ -131,7 +133,7 @@ namespace SZOS
             string name, surname;
             Console.Clear();
             Console.WriteLine("------------------Wyszukiawrka trenerów/instruktorów------------------");
-            if (_numberOfCoaches != 0)
+            if (NumberOfCoaches != 0)
             {
                 Console.Write("Wpisz imie trenera/instruktora lub pozostaw puste zatwierdzając ENTER: ");
                 name = Console.ReadLine();
@@ -139,7 +141,7 @@ namespace SZOS
                 surname = Console.ReadLine();
                 Console.Clear();
                 Console.WriteLine("Lista trenerów/instruktorów: ");
-                for (int i = 0; i < _numberOfCoaches; i++)
+                for (int i = 0; i < NumberOfCoaches; i++)
                 {
                     if (name == _coaches[i].Name && surname == _coaches[i].Surname)
                     {
@@ -167,6 +169,96 @@ namespace SZOS
                 Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
             }
 
+            Console.ReadKey();
+        }
+
+        public void ReadCoachesFromFile()
+        {
+            string[] lines = File.ReadAllLines("Coaches.txt");
+            foreach (string word in lines)
+            {
+                Coach newCoach = new Coach();
+                string[] memberData = word.Split(';');
+                newCoach.Name = memberData[0];
+                newCoach.Surname = memberData[1];
+                newCoach.Address = memberData[2];
+                newCoach.Pesel = Convert.ToInt64(memberData[3]);
+                newCoach.Sex = memberData[4];
+                newCoach.SportsDiscipline = memberData[5];
+                newCoach.LicenseNumber = memberData[6];
+                newCoach.HourlyRate = Convert.ToInt64(memberData[7]);
+                _coaches[NumberOfCoaches++] = newCoach;
+            }
+        }
+
+        public void CreateSportsGroup()
+        {
+            Console.Clear();
+            string sportsDiscipline;
+            string licenceNumber;
+            int numberOfGroups = 0;
+            if (NumberOfCoaches != 0)
+            {
+                for (int i = 0; i < NumberOfCoaches; i++)
+                {
+
+                    if (_coaches[i] != null)
+                    {
+
+                        Console.Write("Wpisz dyscyplinę sportową grupy: ");
+                        sportsDiscipline = Console.ReadLine();
+
+                        Console.Write("Wpisz numer grupy: ");
+                        short groupNumber = Convert.ToInt16(Console.ReadLine());
+                        sportsGroups.GroupNumber = groupNumber;
+
+                        Console.Write("Wpisz maksymalna liczbe osób w gupie: ");
+                        var numberOfMembersInGroup = Convert.ToInt32(Console.ReadLine());
+                        sportsGroups.MaxNumberOfMembersInGroup = numberOfMembersInGroup;
+
+                        Console.WriteLine($"Trenerzy/instruktorzy dyscypliny {sportsDiscipline}: ");
+
+                        if (sportsDiscipline == _coaches[i].SportsDiscipline)
+                        {
+                            Console.WriteLine(ShowCoaches(i));
+                        }
+
+                        //numberOfGroups = sportsGroups.NumberOfSportsGroups++;
+                        //sportsGroups[numberOfGroups] = sportsGroups;
+
+                        //Console.Write("Wpisz numer licencji wybranego trenera: ");
+                        //licenceNumber = Console.ReadLine();
+                        //for (int j = 0; i < NumberOfCoaches; i++)
+                        //{
+                        //    if (licenceNumber == _coaches[j].LicenseNumber)
+                        //    {
+                        //        sportsGroups[j].Name = _coaches[j].Name;
+                        //        sportsGroups[j].Surname = _coaches[j].Surname;
+                        //        sportsGroups[j].SportsDiscipline = _coaches[j].SportsDiscipline;
+                        //        sportsGroups[j].LicenseNumber = _coaches[j].LicenseNumber;
+
+                        //        _sportsGroups[j].MembersInGroup = 0;
+                        //        _sportsGroups[j].GroupNumber = groupNumber;
+                        //        _sportsGroups[j].MaxNumberOfMembersInGroup = numberOfMembersInGroup;
+                        //        Console.WriteLine(
+                        //            $"Trener {_sportsGroups[j].Name} {_sportsGroups[j].Surname} {_sportsGroups[j].SportsDiscipline} {_sportsGroups[j].LicenseNumber} grupa {_sportsGroups[j].GroupNumber} {_sportsGroups[j].MaxNumberOfMembersInGroup}");
+                        //    }
+                        //}
+                    }
+                    else
+                    {
+                        Console.WriteLine("Brak trenerów/instruktorów w bazie danych klubu");
+                        break;
+                    }
+                }
+
+                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+            }
+            else
+            {
+                Console.WriteLine("Brak osób i trenerów w bazie danych, nie można utworzyć grupy.");
+                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+            }
             Console.ReadKey();
         }
     }

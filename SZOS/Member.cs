@@ -21,7 +21,7 @@ namespace SZOS
         private short memberSportsGroup;
         private string membershipCard;
         private bool rodo;
-        
+
         public Member()
         {
             MemberShipNumber = membershipNumber;
@@ -33,7 +33,8 @@ namespace SZOS
         {
             _members = new Member[sizeNumberOfMembers];
         }
-        protected int NumberOfMembers { get; set; }
+
+        public int NumberOfMembers { get; set; }
 
         public short MemberSportsGroup
         {
@@ -43,7 +44,7 @@ namespace SZOS
 
         public int MemberShipNumber
         {
-            get => membershipNumber; 
+            get => membershipNumber;
             set => membershipNumber = GenerateMembershipNumber();
         }
 
@@ -137,7 +138,7 @@ namespace SZOS
         {
             string name, surname;
             Console.Clear();
-            menu.MethodsWriteLineElementColor(new string[]{ "------------Wyszukiawrka członków klubu-----------------" }); 
+            menu.MethodsWriteLineElementColor(new string[] { "------------Wyszukiawrka członków klubu-----------------" });
             if (NumberOfMembers != 0)
             {
                 Console.Write("Wpisz imie osoby lub pozostaw puste zatwierdzając ENTER: ");
@@ -176,9 +177,9 @@ namespace SZOS
 
             Console.ReadKey();
         }
-         public void AddTypeOfCardToMember()
-         {
-             ClubCard clubCard = new ClubCard();
+        public void AddTypeOfCardToMember()
+        {
+            ClubCard clubCard = new ClubCard();
             int inPutCardNumber, cardType;
             Console.Clear();
             if (this.NumberOfMembers != 0)
@@ -198,8 +199,8 @@ namespace SZOS
                 }
 
                 Console.Clear();
-                menu.Configure(new string[]{$"Wybierz rodzaj pakietu", "Silver", "Gold", "Weekend","Personal"});
-                
+                menu.Configure(new string[] { $"Wybierz rodzaj pakietu", "Silver", "Gold", "Weekend", "Personal" });
+
                 cardType = menu.Open();
 
                 for (int i = 0; i < NumberOfMembers; i++)
@@ -227,7 +228,7 @@ namespace SZOS
             }
             else
             {
-                menu.MethodsWriteLineElementColor(new string[]{ "Brak osób w bazie danych.", "Aby powrócić do MENU naciśnij ENTER" });
+                menu.MethodsWriteLineElementColor(new string[] { "Brak osób w bazie danych.", "Aby powrócić do MENU naciśnij ENTER" });
             }
             Console.ReadKey();
         }
@@ -237,7 +238,7 @@ namespace SZOS
         /// </summary>
         /// <param name="i">Służy do określeni id zwracanego członka. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
         /// <returns>Zwraca informacje o użytkowniku</returns>
-        public virtual string ShowMembers(int i)
+        public string ShowMembers(int i)
         {
             return $"Id: {i + 1} " + "\n" +
                    $"Imie: {_members[i].Name} " + "\n" +
@@ -250,20 +251,20 @@ namespace SZOS
                    $"";
         }
 
-        public void ReadMemberFromData()
-		{
-			string[] lines = File.ReadAllLines("Members.txt");
-			foreach (string word in lines)
-			{
-				Member newMember = new Member();
-				string[] memberData = word.Split(';');
+        public void ReadMemberFromFile()
+        {
+            string[] lines = File.ReadAllLines("Members.txt");
+            foreach (string word in lines)
+            {
+                Member newMember = new Member();
+                string[] memberData = word.Split(';');
                 newMember.Name = memberData[0];
                 newMember.Surname = memberData[1];
                 newMember.Address = memberData[2];
                 newMember.Pesel = Convert.ToInt64(memberData[3]);
                 newMember.Sex = memberData[4];
                 _members[NumberOfMembers++] = newMember;
-			}	
-		}
+            }
+        }
     }
 }

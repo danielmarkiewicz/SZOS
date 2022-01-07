@@ -8,9 +8,19 @@ namespace SZOS
 {
     class SportsGroups : Coach
     {
+        
+        protected SportsGroups[] _sportsGroups;
         private int maxNumberOfMembersInGroup, membersInGroup;
         private short groupNumber;
+        private int numberOfGroups;
 
+        public SportsGroups()
+        { }
+
+        public SportsGroups(int sizeNumberOfGroups)
+        {
+            _sportsGroups = new SportsGroups[sizeNumberOfGroups];
+        }
         public int MembersInGroup
         {
             get => membersInGroup;
@@ -48,9 +58,17 @@ namespace SZOS
             }
         }
 
+        public int NumberOfSportsGroups
+        {
+            get => numberOfGroups;
+            set => numberOfGroups = value;
+        }
+
         public override string CoachGroup()
         {
             return "Grupa trenera ";
         }
+
+
     }
 }
