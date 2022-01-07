@@ -14,11 +14,7 @@ namespace SZOS
     {
         private Member member = new Member(100);
         private Coach coach = new Coach(50);
-        private SportsGroups sportsGroups = new SportsGroups(50);
 
-        /// <summary>
-        /// Run służy do zarządaniem interakcjami wykonywanymi przez użytkownika w programie
-        /// </summary>
         public void Run()
         {
             member.ReadMemberFromFile();
@@ -90,7 +86,7 @@ namespace SZOS
                         {
                             case 0:
                             {
-                                //AddMembersToGroup();
+                                //AddMembersToGroup(); asalk - 
                                 break;
                             }
                             case 1:

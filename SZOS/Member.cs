@@ -18,7 +18,6 @@ namespace SZOS
         private Menu menu = new Menu();
         private static readonly Random getrandom = new Random();
         private int membershipNumber;
-        private short memberSportsGroup;
         private string membershipCard;
         private bool rodo;
 
@@ -34,13 +33,12 @@ namespace SZOS
             _members = new Member[sizeNumberOfMembers];
         }
 
-        public int NumberOfMembers { get; set; }
-
-        public short MemberSportsGroup
+        ~Member()
         {
-            get => memberSportsGroup;
-            set => memberSportsGroup = value;
+            File.Copy("Members.txt", $"Members_backup.txt", true);
         }
+
+        public int NumberOfMembers { get; set; }
 
         public int MemberShipNumber
         {
@@ -177,6 +175,7 @@ namespace SZOS
 
             Console.ReadKey();
         }
+
         public void AddTypeOfCardToMember()
         {
             ClubCard clubCard = new ClubCard();
