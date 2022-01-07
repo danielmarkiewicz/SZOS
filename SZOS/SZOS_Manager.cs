@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SZOS
 {
@@ -19,7 +14,7 @@ namespace SZOS
         {
             member.ReadMemberFromFile();
             coach.ReadCoachesFromFile();
-            int buttonMenu, buttonMenuMembers, buttonMenuCoaches, buttonMenuGroups;
+            int buttonMenu;
             do
             {
                 Configure(new string[] { "System Zarządzania Obiektem Sportowym", "Członkowie", "Trenerzy/Instruktorzy", "Zamknij program - ESC" });
@@ -30,7 +25,7 @@ namespace SZOS
                     {
                         Console.Clear();
                         Configure(new string[] { "Dodanie członka klubu", "Zakupienie karnetu", "Wyszukiwarka członków klubu", "Powrót - ESC" });
-                        buttonMenuMembers = Open();
+                        var buttonMenuMembers = Open();
                         switch (buttonMenuMembers)
                         {
                             case 0:
@@ -56,7 +51,7 @@ namespace SZOS
                     {
                         Console.Clear();
                         Configure(new string[] { "Dodanie trenera/instrukora", "Wyszukiwarka trenerów/instruktorów", "Powrót - ESC" });
-                        buttonMenuCoaches = Open();
+                        var buttonMenuCoaches = Open();
                         switch (buttonMenuCoaches)
                         {
                             case 0:

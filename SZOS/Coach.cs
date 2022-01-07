@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SZOS
 {
@@ -18,7 +14,7 @@ namespace SZOS
         private string _sportsDiscipline, _licenseNumber;
         private decimal _hourlyRate;
 
-        public Coach()
+        private Coach()
         {
         }
 
@@ -72,6 +68,10 @@ namespace SZOS
             }
         }
 
+        /// <summary>
+        /// Implemntacja abstrakcyjnej metody TypeOfPerson.
+        /// </summary>
+        /// <returns>Zwraca rodzaj osoby</returns>
         public override string TypeOfPerson()
         {
             return $"Trener/Instruktor dyscypliny {SportsDiscipline}";
@@ -117,6 +117,11 @@ namespace SZOS
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// ShowCoaches służy do wyświetlania informacji o trenerach/instruktorach
+        /// </summary>
+        /// <param name="i">Określa, który rekord ma być wyświetlony</param>
+        /// <returns>Informacje o trenerze/instruktorze</returns>
         private string ShowCoaches(int i)
         {
             return $"Id: {i + 1} " + "\n" +
@@ -130,6 +135,9 @@ namespace SZOS
                    $"";
         }
 
+        /// <summary>
+        /// Implementacja abstrakcyjnej metody Search. Służy do wyszukiwania trenerów/instruktorów.
+        /// </summary>
         public override void Search()
         {
             string name, surname;
@@ -178,6 +186,9 @@ namespace SZOS
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// ReadCoachesFromFile odczytuje dane trenerów/instruktorów z pliku
+        /// </summary>
         public void ReadCoachesFromFile()
         {
             string[] lines = File.ReadAllLines("Coaches.txt");

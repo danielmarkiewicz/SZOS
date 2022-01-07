@@ -1,11 +1,5 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SZOS
 {
@@ -21,7 +15,7 @@ namespace SZOS
         private string membershipCard;
         private bool _rodo;
 
-        public Member()
+        protected Member()
         {
             MemberShipNumber = membershipNumber;
             MemberShipCard = membershipCard;
@@ -79,13 +73,17 @@ namespace SZOS
             }
         }
 
+        /// <summary>
+        /// Implemntacja abstrakcyjnej metody TypeOfPerson.
+        /// </summary>
+        /// <returns>Zwraca rodzaj osoby</returns>
         public override string TypeOfPerson()
         {
             return "Członek klubu";
         }
 
         /// <summary>
-        /// AddNewMember to metoda do dodawania nowych członków do klubu. Wykorzystuje ona klasę Member, w której jest generowany indywidualny numer członkowski.
+        /// Implementacja abstrakcyjnej metody do dodawania nowych członków do klubu. Wykorzystuje ona klasę Member, w której jest generowany indywidualny numer członkowski.
         /// </summary>
         public override void AddNew()
         {
@@ -132,6 +130,9 @@ namespace SZOS
             Console.Clear();
         }
 
+        /// <summary>
+        /// Implementacja abstrakcyjnej metody Search. Służy do wyszukiwania członków klubu.
+        /// </summary>
         public override void Search()
         {
             string name, surname;
@@ -180,6 +181,9 @@ namespace SZOS
             Console.ReadKey();
         }
 
+        /// <summary>
+        /// AddTypeOfCardToMember służy do dodawania karnetu członkowi klubu.
+        /// </summary>
         public void AddTypeOfCardToMember()
         {
             ClubCard clubCard = new ClubCard();
@@ -253,7 +257,10 @@ namespace SZOS
                    $"{_members[i].TypeOfPerson()} posiadający karnet {_members[i].MemberShipCard}" + "\n" +
                    $"";
         }
-
+        
+        /// <summary>
+        /// ReadCoachesFromFile odczytuje dane członków z pliku
+        /// </summary>
         public void ReadMemberFromFile()
         {
             string[] lines = File.ReadAllLines("Members.txt");

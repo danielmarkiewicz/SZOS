@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SZOS
 {
@@ -12,7 +9,7 @@ namespace SZOS
         private string[] _elementsMethods = new string[0];
 
 
-        public int LongestString { get; set; }
+        private int LongestString { get; set; }
 
         public void Configure(string[] elementsMenu)
         {
