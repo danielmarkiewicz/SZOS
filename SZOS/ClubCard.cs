@@ -8,6 +8,7 @@ namespace SZOS
 {
     class ClubCard : Member
     {
+        
         private string typeOfCard;
 
         public override string MemberShipCard
@@ -33,6 +34,12 @@ namespace SZOS
                     typeOfCard = "Personal";
                 }
             }
+        }
+
+        public override string ShowMembers(int i)
+        {
+            return $"Użytkownikowi {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} aktywowano karnet {_members[i].MemberShipCard}";
+
         }
     }
 }

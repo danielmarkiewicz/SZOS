@@ -12,6 +12,8 @@ namespace SZOS
     /// </summary>
     class SZOS_Manager : Menu
     {
+        private Member member = new Member(100);
+        private Coach coach = new Coach(50);
         private Member[] _members;
         private Coach[] _coaches;
         private SportsGroups[] _sportsGroups;
@@ -53,7 +55,7 @@ namespace SZOS
                         {
                             case 0:
                             {
-                                AddNewMember();
+                                member.AddNew();;
                                 break;
                             }
                             case 1:
@@ -79,7 +81,7 @@ namespace SZOS
                         {
                             case 0:
                             {
-                                AddNewCoach();
+                                coach.AddNew();
                                 break;
                             }
                             case 1:
@@ -89,7 +91,7 @@ namespace SZOS
                             }
                             case 2:
                             {
-                                SearchCoaches();
+                                oc_SearchCoaches();
                                 break;
                             }
                         }
@@ -127,91 +129,87 @@ namespace SZOS
             while (buttonMenu != -1 && buttonMenu != 4);
         }
 
-        /// <summary>
-        /// AddNewMember to metoda do dodawania nowych członków do klubu. Wykorzystuje ona klasę Member, w której jest generowany indywidualny numer członkowski.
-        /// </summary>
-        public void AddNewMember()
-        {
-            Console.Clear();
-            if (_numberOfMembers < _members.Length)
-            {
-                Member newMember = new Member();
-                MethodsWriteLineElementColor(new string[]{"--------------Dodawanie nowego użytkowinka-------------","Czy osoba wyraża zgodę RODO? (ENTER = Tak, ESC = Nie): "});
-                Console.CursorVisible = false;
-                ConsoleKeyInfo buttonRodo = Console.ReadKey();
-                Console.CursorVisible = true;
-                if (buttonRodo.Key == ConsoleKey.Enter)
-                {
-                    newMember.Rodo = true;
+ 
+        //public void AddNewMember()
+        //{
+        //    Console.Clear();
+        //    if (_numberOfMembers < _members.Length)
+        //    {
+        //        Member newMember = new Member();
+        //        MethodsWriteLineElementColor(new string[]{"--------------Dodawanie nowego użytkowinka-------------","Czy osoba wyraża zgodę RODO? (ENTER = Tak, ESC = Nie): "});
+        //        Console.CursorVisible = false;
+        //        ConsoleKeyInfo buttonRodo = Console.ReadKey();
+        //        Console.CursorVisible = true;
+        //        if (buttonRodo.Key == ConsoleKey.Enter)
+        //        {
+        //            newMember.Rodo = true;
                 
-                    Console.WriteLine("Wypełnij następujące pola:");
-                    Console.Write("Imie: ");
-                    newMember.Name = Console.ReadLine();
-                    Console.Write("Nazwisko: ");
-                    newMember.Surname = Console.ReadLine();
-                    Console.Write("Adres: ");
-                    newMember.Address = Console.ReadLine();
-                    Console.Write("PESEL: ");
-                    newMember.Pesel = Convert.ToInt64(Console.ReadLine());
-                    Console.Write("Płeć(M/K): ");
-                    newMember.Sex = Console.ReadLine();
+        //            Console.WriteLine("Wypełnij następujące pola:");
+        //            Console.Write("Imie: ");
+        //            newMember.Name = Console.ReadLine();
+        //            Console.Write("Nazwisko: ");
+        //            newMember.Surname = Console.ReadLine();
+        //            Console.Write("Adres: ");
+        //            newMember.Address = Console.ReadLine();
+        //            Console.Write("PESEL: ");
+        //            newMember.Pesel = Convert.ToInt64(Console.ReadLine());
+        //            Console.Write("Płeć(M/K): ");
+        //            newMember.Sex = Console.ReadLine();
                     
-                    Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
-                    _members[_numberOfMembers++] = newMember;
-                }
-                else if (buttonRodo.Key == ConsoleKey.Escape)
-                {
-                    Console.WriteLine();
-                    MethodsWriteLineElementColor(new string[] { "Zgoda RODO konieczna do założenia konta nowemu członkowi", "Aby powrócić do MENU naciśnij ENTER" });
-                    newMember.Rodo = false;
-                }
-            }
-            else
-            {
-                MethodsWriteLineElementColor(new string[] { "Brak miejsc w klubie", "Aby powrócić do MENU naciśnij ENTER" });
-            }
-            Console.ReadKey();
-            Console.Clear();
-        }
+        //            Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+        //            _members[_numberOfMembers++] = newMember;
+        //        }
+        //        else if (buttonRodo.Key == ConsoleKey.Escape)
+        //        {
+        //            Console.WriteLine();
+        //            MethodsWriteLineElementColor(new string[] { "Zgoda RODO konieczna do założenia konta nowemu członkowi", "Aby powrócić do MENU naciśnij ENTER" });
+        //            newMember.Rodo = false;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MethodsWriteLineElementColor(new string[] { "Brak miejsc w klubie", "Aby powrócić do MENU naciśnij ENTER" });
+        //    }
+        //    Console.ReadKey();
+        //    Console.Clear();
+        //}
 
-        /// <summary>
-        /// AddNewCoach to metoda do dodawania nowych trenerów/instruktorów do klubu. Wykorzystuje ona klasę Coach, która dziedzieczy po Person. Wewnątrz Coach przechowywane sa dane szczególowe o trenerze/instruktorze
-        /// </summary>
-        public void AddNewCoach()
-        {
-            Console.Clear();
-            if (_numberOfCoaches < _coaches.Length)
-            {
-                MethodsWriteLineElementColor(new string[] { "Dodawanie nowego trenera/instruktora", "Wypełnij następujące pola: "});
-                Coach newCoach = new Coach();
-                Console.Write("Imie: ");
-                newCoach.Name = Console.ReadLine();
-                Console.Write("Nazwisko: ");
-                newCoach.Surname = Console.ReadLine();
-                Console.Write("Adres ");
-                newCoach.Address = Console.ReadLine();
-                Console.Write("PESEL: ");
-                newCoach.Pesel = Convert.ToInt64(Console.ReadLine());
-                Console.Write("Płeć(M/K): ");
-                newCoach.Sex = Console.ReadLine();
-                Console.Write("Dyscyplina: ");
-                newCoach.SportsDiscipline = Console.ReadLine();
-                Console.Write("Numer licencji: ");
-                newCoach.LicenseNumber = Console.ReadLine();
-                Console.Write("Stawka za godzinę zajęć: ");
-                newCoach.HourlyRate = Convert.ToDecimal(Console.ReadLine());
+        
+        //public void AddNewCoach()
+        //{
+        //    Console.Clear();
+        //    if (_numberOfCoaches < _coaches.Length)
+        //    {
+        //        MethodsWriteLineElementColor(new string[] { "Dodawanie nowego trenera/instruktora", "Wypełnij następujące pola: "});
+        //        Coach newCoach = new Coach();
+        //        Console.Write("Imie: ");
+        //        newCoach.Name = Console.ReadLine();
+        //        Console.Write("Nazwisko: ");
+        //        newCoach.Surname = Console.ReadLine();
+        //        Console.Write("Adres ");
+        //        newCoach.Address = Console.ReadLine();
+        //        Console.Write("PESEL: ");
+        //        newCoach.Pesel = Convert.ToInt64(Console.ReadLine());
+        //        Console.Write("Płeć(M/K): ");
+        //        newCoach.Sex = Console.ReadLine();
+        //        Console.Write("Dyscyplina: ");
+        //        newCoach.SportsDiscipline = Console.ReadLine();
+        //        Console.Write("Numer licencji: ");
+        //        newCoach.LicenseNumber = Console.ReadLine();
+        //        Console.Write("Stawka za godzinę zajęć: ");
+        //        newCoach.HourlyRate = Convert.ToDecimal(Console.ReadLine());
 
-                _coaches[_numberOfCoaches++] = newCoach;
+        //        _coaches[_numberOfCoaches++] = newCoach;
 
-                Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
-                Console.ReadKey();
-            }
-            else
-            {
-                MethodsWriteLineElementColor(new string[] {"Brak miejsc w klubie", "Aby powrócić do MENU naciśnij ENTER"});
-            }
-            Console.ReadKey();
-        }
+        //        Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
+        //        Console.ReadKey();
+        //    }
+        //    else
+        //    {
+        //        MethodsWriteLineElementColor(new string[] {"Brak miejsc w klubie", "Aby powrócić do MENU naciśnij ENTER"});
+        //    }
+        //    Console.ReadKey();
+        //}
 
         /// <summary>
         /// ShowMembers wyświetla wszystkich członków zapisanych do klubu z możliwością filtrowania po imieniu, nazwisku lub imieniu i nazwisku
@@ -234,19 +232,19 @@ namespace SZOS
                 {
                     if (name == _members[i].Name && surname == _members[i].Surname)
                     {
-                        Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine(member.ShowMembers(i));
                     }
                     else if (name == _members[i].Name && surname == "")
                     {
-                        Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine(member.ShowMembers(i));
                     }
                     else if (name == "" && surname == _members[i].Surname)
                     {
-                        Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine(member.ShowMembers(i));
                     }
                     else if (name == "" && surname == "")
                     {
-                        Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine(member.ShowMembers(i));
                     }
                 }
                 Console.WriteLine("Aby kontynuować naciśnij ENTER");
@@ -391,7 +389,7 @@ namespace SZOS
 
                             Console.Clear();
                             Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine($"Użytkownikowi {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} aktywowano karnet {_members[i].MemberShipCard}");
+                            Console.WriteLine(_clubCard.ShowMembes(i));
                         }
                         else
                         {
@@ -552,23 +550,19 @@ namespace SZOS
         {
             return $"Grupa: {_members[i].MemberSportsGroup} {_members[i].Name} {_members[i].Surname} {_members[i].MemberShipNumber} {_members[i].TypeOfPerson()} {_members[i].MemberShipCard}";
         }
-        /// <summary>
-        /// ShowCoaches zwaraca dane członków
-        /// </summary>
-        /// <param name="i">Służy do określeni id zwracanego członka. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
-        /// <returns>Zwraca informacje o użytkowniku</returns>
-        public string ShowMembers(int i)
-        {
-            return $"Id: {i + 1} " + "\n" +
-                   $"Imie: {_members[i].Name} " + "\n" +
-                   $"Nazwisko: {_members[i].Surname} " + "\n" +
-                   $"Adres: {_members[i].Address} " + "\n" +
-                   $"PESEL: {_members[i].Pesel} " + "\n" +
-                   $"Płeć: {_members[i].Sex} " + "\n" +
-                   $"Numer członkowski: {_members[i].MemberShipNumber} " + "\n" +
-                   $"{_members[i].TypeOfPerson()} posiadający karnet {_members[i].MemberShipCard}" + "\n" +
-                   $"";
-        }
+        
+        //public string ShowMembers(int i)
+        //{
+        //    return $"Id: {i + 1} " + "\n" +
+        //           $"Imie: {_members[i].Name} " + "\n" +
+        //           $"Nazwisko: {_members[i].Surname} " + "\n" +
+        //           $"Adres: {_members[i].Address} " + "\n" +
+        //           $"PESEL: {_members[i].Pesel} " + "\n" +
+        //           $"Płeć: {_members[i].Sex} " + "\n" +
+        //           $"Numer członkowski: {_members[i].MemberShipNumber} " + "\n" +
+        //           $"{_members[i].TypeOfPerson()} posiadający karnet {_members[i].MemberShipCard}" + "\n" +
+        //           $"";
+        //}
 
         /// <summary>
         /// ShowCoaches zwaraca dane trenerów/instruktorów

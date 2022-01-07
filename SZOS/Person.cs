@@ -81,5 +81,8 @@ namespace SZOS
 
         public abstract string TypeOfPerson();
 
+        public abstract void AddNew();
+
+        public abstract void Search();
     }
 }
