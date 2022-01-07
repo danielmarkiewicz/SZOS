@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 
 namespace SZOS
 {
-    class SportsGroups
+    class SportsGroups : Coach
     {
         private int maxNumberOfMembersInGroup, membersInGroup;
         private short groupNumber;
         private int numberOfGroups;
 
-        public SportsGroups()
-        { }
+        private SportsGroups[] _sportsGroups;
+        
+        public SportsGroups(int sizeNumberOfGroups)
+        {
+            _sportsGroups = new SportsGroups[sizeNumberOfGroups];
+        }
         
         public int MembersInGroup
         {

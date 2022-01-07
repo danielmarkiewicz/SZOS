@@ -55,7 +55,7 @@ namespace SZOS
                     case 2:
                     {
                         Console.Clear();
-                        Configure(new string[] { "Dodanie trenera/instrukora", "Dodanie grupy zajęciowej trenerowi/instruktorowi", "Wyszukiwarka trenerów/instruktorów", "Powrót - ESC" });
+                        Configure(new string[] { "Dodanie trenera/instrukora", "Wyszukiwarka trenerów/instruktorów", "Powrót - ESC" });
                         buttonMenuCoaches = Open();
                         switch (buttonMenuCoaches)
                         {
@@ -66,10 +66,6 @@ namespace SZOS
                             }
                             case 1:
                             {
-                                break;
-                            }
-                            case 2:
-                            {
                                 coach.Search();
                                 break;
                             }
@@ -79,33 +75,12 @@ namespace SZOS
                     }
                     case 3:
                     {
-                        Console.Clear();
-                        Configure(new string[] { "Dodanie członka do grupy zajęciowej",  "Wyszukiwarka grup zajęciowych", "Powrót - ESC" });
-                        buttonMenuGroups = Open();
-                        switch (buttonMenuGroups)
-                        {
-                            case 0:
-                            {
-                                //AddMembersToGroup(); asalk - 
-                                break;
-                            }
-                            case 1:
-                            {
-                                //SearchGroups();
-                                break;
-                            }
-                        }
-                        Console.Clear();
-                        break;
-                    }
-                    case 4:
-                    {
                         Environment.Exit(0);
                         break;
                     }
                 }
             }
-            while (buttonMenu != -1 && buttonMenu != 4);
+            while (buttonMenu != -1 && buttonMenu != 3);
         }
 
     }

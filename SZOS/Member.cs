@@ -14,7 +14,7 @@ namespace SZOS
     /// </summary>
     class Member : Person
     {
-        protected Member[] _members;
+        private Member[] _members;
         private Menu menu = new Menu();
         private static readonly Random getrandom = new Random();
         private int membershipNumber;

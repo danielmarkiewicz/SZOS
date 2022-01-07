@@ -12,8 +12,9 @@ namespace SZOS
     /// </summary>
     class Coach : Person
     {
-        protected Coach[] _coaches;
+        private Coach[] _coaches;
         private Menu menu = new Menu();
+
         private string sportsDiscipline, licenseNumber;
         private protected decimal hourlyRate;
         protected int NumberOfCoaches { get; set; }
@@ -68,11 +69,6 @@ namespace SZOS
         public override string TypeOfPerson()
         {
             return $"Trener/Instruktor dyscypliny {SportsDiscipline}";
-        }
-
-        public string CoachGroup()
-        {
-            return "Trener/instruktor prowadzi zajęcia dla grup: ";
         }
 
         /// <summary>
@@ -189,7 +185,5 @@ namespace SZOS
                 _coaches[NumberOfCoaches++] = newCoach;
             }
         }
-
-       
     }
 }
