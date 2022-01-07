@@ -13,18 +13,18 @@ namespace SZOS
     abstract class Person
     {
         private string name, surname, address, sex;
-        private long pesel;
+        private long _pesel;
 
-        public long Pesel
+        protected long Pesel
         {
-            get => pesel;
+            get => _pesel;
             set
             {
-                pesel = value;
+                _pesel = value;
             }
         }
 
-        public string Sex
+        protected string Sex
         {
             get => sex;
             set
@@ -40,7 +40,7 @@ namespace SZOS
             }
         }
 
-        public string Address
+        protected string Address
         {
             get => address;
             set
@@ -52,7 +52,7 @@ namespace SZOS
             }
         }
 
-        public string Name
+        protected string Name
         {
             get => name;
             set
@@ -64,7 +64,7 @@ namespace SZOS
             }
         }
 
-        public string Surname
+        protected string Surname
         {
             get => surname;
             set

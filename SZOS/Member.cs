@@ -19,7 +19,7 @@ namespace SZOS
         private static readonly Random getrandom = new Random();
         private int membershipNumber;
         private string membershipCard;
-        private bool rodo;
+        private bool _rodo;
 
         public Member()
         {
@@ -38,15 +38,15 @@ namespace SZOS
             File.Copy("Members.txt", $"Members_backup.txt", true);
         }
 
-        public int NumberOfMembers { get; set; }
+        private int NumberOfMembers { get; set; }
 
-        public int MemberShipNumber
+        private int MemberShipNumber
         {
             get => membershipNumber;
             set => membershipNumber = GenerateMembershipNumber();
         }
 
-        public virtual string MemberShipCard
+        protected virtual string MemberShipCard
         {
             get => membershipCard;
             set
@@ -62,17 +62,16 @@ namespace SZOS
             }
         }
 
-        public bool Rodo
+        private bool RodoAgreement
         {
-            get => rodo;
-            set => rodo = value;
+            set => _rodo = value;
         }
 
         /// <summary>
         /// GenerateMembershipNumber generuje indywidualny numer członkowski w zakresie od 10000 do 32000
         /// </summary>
         /// <returns></returns>
-        public int GenerateMembershipNumber()
+        private int GenerateMembershipNumber()
         {
             lock (getrandom)
             {
@@ -100,7 +99,7 @@ namespace SZOS
                 Console.CursorVisible = true;
                 if (buttonRodo.Key == ConsoleKey.Enter)
                 {
-                    newMember.Rodo = true;
+                    newMember.RodoAgreement = true;
 
                     Console.WriteLine("Wypełnij następujące pola:");
                     Console.Write("Imie: ");
@@ -116,12 +115,13 @@ namespace SZOS
 
                     Console.WriteLine("Aby powrócić do MENU naciśnij ENTER");
                     _members[NumberOfMembers++] = newMember;
+                    File.AppendAllText("Members.txt", $"\n{newMember.Name};{newMember.Surname};{newMember.Address};{newMember.Pesel};{newMember.Sex}");
                 }
                 else if (buttonRodo.Key == ConsoleKey.Escape)
                 {
                     Console.WriteLine();
                     menu.MethodsWriteLineElementColor(new string[] { "Zgoda RODO konieczna do założenia konta nowemu członkowi", "Aby powrócić do MENU naciśnij ENTER" });
-                    newMember.Rodo = false;
+                    newMember.RodoAgreement = false;
                 }
             }
             else
@@ -151,18 +151,22 @@ namespace SZOS
                     if (name == _members[i].Name && surname == _members[i].Surname)
                     {
                         Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                     else if (name == _members[i].Name && surname == "")
                     {
                         Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                     else if (name == "" && surname == _members[i].Surname)
                     {
                         Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                     else if (name == "" && surname == "")
                     {
                         Console.WriteLine(ShowMembers(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                 }
                 Console.WriteLine("Aby kontynuować naciśnij ENTER");
@@ -237,7 +241,7 @@ namespace SZOS
         /// </summary>
         /// <param name="i">Służy do określeni id zwracanego członka. Może być wykorzystane do pętli aby wyświetlić listę, lub używając bezpośrednio paramteru w wywołaniu, aby zwrócić konkretną wartość</param>
         /// <returns>Zwraca informacje o użytkowniku</returns>
-        public string ShowMembers(int i)
+        private string ShowMembers(int i)
         {
             return $"Id: {i + 1} " + "\n" +
                    $"Imie: {_members[i].Name} " + "\n" +

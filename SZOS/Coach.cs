@@ -15,9 +15,8 @@ namespace SZOS
         private Coach[] _coaches;
         private Menu menu = new Menu();
 
-        private string sportsDiscipline, licenseNumber;
-        private protected decimal hourlyRate;
-        protected int NumberOfCoaches { get; set; }
+        private string _sportsDiscipline, _licenseNumber;
+        private decimal _hourlyRate;
 
         public Coach()
         {
@@ -28,40 +27,47 @@ namespace SZOS
             _coaches = new Coach[sizeNumberOfCoach];
         }
 
-        public string SportsDiscipline
+        ~Coach()
         {
-            get => sportsDiscipline;
+            File.Copy("Coaches.txt", $"Coaches_backup.txt", true);
+        }
+
+        private int NumberOfCoaches { get; set; }
+
+        private string SportsDiscipline
+        {
+            get => _sportsDiscipline;
             set
             {
                 if (value != null)
                 {
-                    sportsDiscipline = value;
+                    _sportsDiscipline = value;
                 }
             }
         }
 
-        public string LicenseNumber
+        private string LicenseNumber
         {
-            get => licenseNumber;
+            get => _licenseNumber;
 
             set
             {
                 if (value != null)
                 {
-                    licenseNumber = value;
+                    _licenseNumber = value;
                 }
             }
         }
 
-        public decimal HourlyRate
+        private decimal HourlyRate
         {
-            get => hourlyRate;
+            get => _hourlyRate;
 
             set
             {
                 if (value > 0)
                 {
-                    hourlyRate = value;
+                    _hourlyRate = value;
                 }
             }
         }
@@ -85,7 +91,7 @@ namespace SZOS
                 newCoach.Name = Console.ReadLine();
                 Console.Write("Nazwisko: ");
                 newCoach.Surname = Console.ReadLine();
-                Console.Write("Adres ");
+                Console.Write("Adres: ");
                 newCoach.Address = Console.ReadLine();
                 Console.Write("PESEL: ");
                 newCoach.Pesel = Convert.ToInt64(Console.ReadLine());
@@ -97,6 +103,7 @@ namespace SZOS
                 newCoach.LicenseNumber = Console.ReadLine();
                 Console.Write("Stawka za godzinę zajęć: ");
                 newCoach.HourlyRate = Convert.ToDecimal(Console.ReadLine());
+                File.AppendAllText("Coaches.txt", $"\n{newCoach.Name};{newCoach.Surname};{newCoach.Address};{newCoach.Pesel};{newCoach.Sex};{newCoach.SportsDiscipline};{newCoach.LicenseNumber};{newCoach.HourlyRate}");
 
                 _coaches[NumberOfCoaches++] = newCoach;
 
@@ -110,7 +117,7 @@ namespace SZOS
             Console.ReadKey();
         }
 
-        public string ShowCoaches(int i)
+        private string ShowCoaches(int i)
         {
             return $"Id: {i + 1} " + "\n" +
                    $"Imie: {_coaches[i].Name} " + "\n" +
@@ -127,12 +134,12 @@ namespace SZOS
         {
             string name, surname;
             Console.Clear();
-            Console.WriteLine("------------------Wyszukiawrka trenerów/instruktorów------------------");
+            menu.MethodsWriteLineElementColor(new string[] {"------------------Wyszukiawrka trenerów/instruktorów------------------"});
             if (NumberOfCoaches != 0)
             {
                 Console.Write("Wpisz imie trenera/instruktora lub pozostaw puste zatwierdzając ENTER: ");
                 name = Console.ReadLine();
-                Console.Write("Wpisz trenera/instruktora osoby lub pozostaw puste zatwierdzając ENTER: ");
+                Console.Write("Wpisz nazwisko trenera/instruktora lub pozostaw puste zatwierdzając ENTER: ");
                 surname = Console.ReadLine();
                 Console.Clear();
                 Console.WriteLine("Lista trenerów/instruktorów: ");
@@ -141,18 +148,22 @@ namespace SZOS
                     if (name == _coaches[i].Name && surname == _coaches[i].Surname)
                     {
                         Console.WriteLine(ShowCoaches(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                     else if (name == _coaches[i].Name && surname == "")
                     {
                         Console.WriteLine(ShowCoaches(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                     else if (name == "" && surname == _coaches[i].Surname)
                     {
                         Console.WriteLine(ShowCoaches(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                     else if (name == "" && surname == "")
                     {
                         Console.WriteLine(ShowCoaches(i));
+                        Console.WriteLine("-------------------------------------------------------------------");
                     }
                 }
 

@@ -8,29 +8,30 @@ namespace SZOS
 {
     class ClubCard : Member
     {
-        private string typeOfCard;
-        public override string MemberShipCard
+        private string _typeOfCard;
+
+        protected override string MemberShipCard
         {
-            get => typeOfCard;
+            get => _typeOfCard;
              
             set
             
             {
                 if (value == "1")
                 {
-                    typeOfCard = "Silver";
+                    _typeOfCard = "Silver";
                 }
                 else if (value == "2")
                 {
-                    typeOfCard = "Gold";
+                    _typeOfCard = "Gold";
                 }
                 else if (value == "3")
                 {
-                    typeOfCard = "Weekend";
+                    _typeOfCard = "Weekend";
                 }
                 else if (value == "4")
                 {
-                    typeOfCard = "Personal";
+                    _typeOfCard = "Personal";
                 }
             }
         }

@@ -22,7 +22,7 @@ namespace SZOS
             int buttonMenu, buttonMenuMembers, buttonMenuCoaches, buttonMenuGroups;
             do
             {
-                Configure(new string[] { "System Zarządzania Obiektem Sportowym", "Członkowie", "Trenerzy/Instruktorzy", "Grupy zajęciowe", "Zamknij program - ESC" });
+                Configure(new string[] { "System Zarządzania Obiektem Sportowym", "Członkowie", "Trenerzy/Instruktorzy", "Zamknij program - ESC" });
                 buttonMenu = Open();
                 switch (buttonMenu)
                 {
