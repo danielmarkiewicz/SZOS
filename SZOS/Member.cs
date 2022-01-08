@@ -10,7 +10,7 @@ namespace SZOS
     {
         private Member[] _members;
         private Menu menu = new Menu();
-        private static readonly Random getrandom = new Random();
+        private static readonly Random Getrandom = new Random();
         private int membershipNumber;
         private string membershipCard;
         private bool _rodo;
@@ -67,9 +67,9 @@ namespace SZOS
         /// <returns></returns>
         private int GenerateMembershipNumber()
         {
-            lock (getrandom)
+            lock (Getrandom)
             {
-                return getrandom.Next(10000, 32000);
+                return Getrandom.Next(10000, 32000);
             }
         }
 

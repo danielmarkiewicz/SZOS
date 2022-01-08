@@ -5,7 +5,7 @@
     /// </summary>
     abstract class Person
     {
-        private string name, surname, address, sex;
+        private string _name, _surname, _address, _sex;
         private long _pesel;
 
         protected long Pesel
@@ -13,58 +13,61 @@
             get => _pesel;
             set
             {
-                _pesel = value;
+                if(value > 0)
+                {
+                    _pesel = value;
+                }
             }
         }
 
         protected string Sex
         {
-            get => sex;
+            get => _sex;
             set
             {
                 if (value == "M")
                 {
-                    sex = value;
+                    _sex = value;
                 }
                 else if (value == "K")
                 {
-                    sex = value;
+                    _sex = value;
                 }
             }
         }
 
         protected string Address
         {
-            get => address;
+            get => _address;
             set
             {
                 if (value != null)
                 {
-                    address = value;
+                    _address = value;
                 }
             }
         }
 
         protected string Name
         {
-            get => name;
+            get => _name;
             set
             {
                 if (value != null && value.Length < 40)
                 {
-                    name = value;
+                    _name = value;
                 }
             }
         }
 
         protected string Surname
         {
-            get => surname;
+            get => _surname;
             set
             {
                 if (value != null && value.Length < 50)
                 {
-                    surname = value;
+                    _surname = value;
                 }
             }
         }

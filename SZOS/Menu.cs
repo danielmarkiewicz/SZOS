@@ -79,7 +79,7 @@ namespace SZOS
         {
             if (_elementsMethods != null && elementsMethod.Length > 0)
             {
-                this._elementsMethods = elementsMethod;
+                _elementsMethods = elementsMethod;
             }
 
             LongestString = elementsMethod.Max(l => l.Length);
